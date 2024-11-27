@@ -1,0 +1,37 @@
+@use 'variables' ;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: variables.$font-family;
+  color: variables.$text-color;
+  background-color: variables.$background-color;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: variables.$heading-font-weight;
+  color: variables.$primary-color;
+}
+
+button {
+  font-weight: variables.$body-font-weight;
+  border: none;
+  border-radius: variables.$border-radius;
+  cursor: pointer;
+  box-shadow: variables.$box-shadow;
+  padding: variables.$padding-small variables.$padding-medium;
+  color: white;
+  background-color: variables.$primary-color;
+  &:hover {
+    background-color: variables.$secondary-color;
+  }
+}

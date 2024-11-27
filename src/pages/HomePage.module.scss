@@ -1,0 +1,77 @@
+.container {
+  background-color: #f9f9f9; // Off-White
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  background: #ffffff; // White background
+  min-height: 100vh; // Full page height
+  display: flex;
+  align-items: center;
+}
+
+.heroText {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroImage {
+  max-width: 100%;
+  height: auto;
+}
+
+.primaryButton {
+  background-color: #0d3b66; // Muted Navy
+  color: white;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: #092b4b; // Darker Navy
+  }
+}
+
+.secondaryButton {
+  border: 2px solid #0d3b66;
+  color: #0d3b66; // Muted Navy
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: #f9f9f9; // Lighter background for hover
+  }
+}
+
+.missionCard {
+  margin: 2rem 0;
+  background-color: #ffffff; // White
+  color: #2e2e2e; // Dark Gray
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.footer {
+  background-color: #ffffff; // White footer
+  color: #6b6b6b; // Medium Gray
+  border-top: 1px solid #e0e0e0; // Subtle border
+}
+
+.logo {
+  height: 50px;
+  margin-right: 1rem;
+}
+
+.toolbarTitle {
+  font-weight: bold;
+}
