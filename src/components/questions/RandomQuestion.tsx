@@ -15,11 +15,13 @@ import {
 import { MathJax } from "better-react-mathjax";
 import {
     fetchRandomQuestion,
+    generateNewQuestion,
     generateSimilarQuestions,
     getQuestionAnswer,
 } from "../../services/api";
 import { Question } from "../../models/Question";
 import styles from "./RandomQuestion.module.scss";
+import { NewQuestionRequest } from "../../models/NewQuestionRequest";
 
 // Utility function to shuffle an array
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -34,6 +36,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 const RandomQuestion: React.FC = () => {
     const [question, setQuestion] = useState<Question | null>(null);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [shuffledOptions, setShuffledOptions] = useState<[string, string][]>([]);
     const [error, setError] = useState<string>("");
     const [feedback, setFeedback] = useState<string>("");
     const [answeredCorrectly, setAnsweredCorrectly] = useState<boolean>(false);
@@ -46,6 +49,11 @@ const RandomQuestion: React.FC = () => {
     const reset = (data: Question) => {
         setQuestion(data);
         setTimeLeft(60);
+
+        // Shuffle options when question is loaded
+        const shuffled = shuffleArray(Object.entries(data.options));
+        setShuffledOptions(shuffled);
+
         setIsTimerRunning(true);
         setAttempts(0);
         setAnsweredCorrectly(false);
@@ -69,7 +77,29 @@ const RandomQuestion: React.FC = () => {
         }
     };
 
-    const generateNewQuestion = async () => {
+    const loadNewGeneratedQuestion = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            setError("You must log in first");
+            return;
+        }
+
+        const req : NewQuestionRequest = {
+            test_type: "SAT",
+            subject: "Math",
+            topic: "Intermediate Algebra",
+            subtopic: "Logarithms and Exponents"
+        }
+        try {
+            const data = await generateNewQuestion(req, token);
+            reset(data);
+        } catch {
+            setError("Failed to generate a new question");
+        }
+    };
+
+
+    const generateNewQuestionFromCurrent = async () => {
         try {
             const data = await generateSimilarQuestions(
                 question?.id,
@@ -82,7 +112,7 @@ const RandomQuestion: React.FC = () => {
     };
 
     useEffect(() => {
-        loadRandomQuestion();
+        loadNewGeneratedQuestion();
     }, []);
 
     useEffect(() => {
@@ -154,7 +184,7 @@ const RandomQuestion: React.FC = () => {
                                 value={selectedOption}
                                 onChange={(e) => handleOptionSelect(e.target.value)}
                             >
-                                {Object.entries(question.options).map(([key, value]) => (
+                                {shuffledOptions.map(([key, value]) => (
                                     <FormControlLabel
                                         key={key}
                                         value={key}
@@ -179,13 +209,18 @@ const RandomQuestion: React.FC = () => {
                                 <Typography variant="body2"><MathJax>{explanation}</MathJax></Typography>
                             </Box>
                         )}
+                        {answeredCorrectly && question.difficulty && (
+                            <Box className={styles.explanation}>
+                                <Typography variant="h6">{`Difficulty: ${Math.round(question.difficulty * 100)} /100`}</Typography>
+                            </Box>
+                        )}
                         <Box className={styles.actions}>
                             {!answeredCorrectly ? (
                                 <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>
                                     Submit Answer
                                 </Button>
                             ) : (
-                                <Button variant="contained" color="secondary" fullWidth onClick={loadRandomQuestion}>
+                                <Button variant="contained" color="secondary" fullWidth onClick={loadNewGeneratedQuestion}>
                                     Next Question
                                 </Button>
                             )}
@@ -195,7 +230,7 @@ const RandomQuestion: React.FC = () => {
                                     color="info"
                                     fullWidth
                                     className={styles.moreQuestionsButton}
-                                    onClick={generateNewQuestion}
+                                    onClick={generateNewQuestionFromCurrent}
                                 >
                                     Generate More Like This
                                 </Button>

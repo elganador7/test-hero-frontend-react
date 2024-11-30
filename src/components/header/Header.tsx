@@ -20,7 +20,7 @@ export const Header: React.FC = () => {
     return(
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }} className={styles.title}>
+            <Typography variant="h6" sx={{ flexGrow: 1 }} className={styles.title} onClick={() => navigate('/')}>
               TestHero
             </Typography>
             {!isLoggedIn ? (

@@ -2,10 +2,14 @@ import axios from 'axios';
 import { Question } from '../models/Question';
 import { QuestionAnswer } from '../models/QuestionAnswer';
 import { UserAnswer } from '../models/UserAnswer';
+import { NewQuestionRequest } from '../models/NewQuestionRequest';
+import { getRandomSubtopic } from './util';
+
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api', // Replace with your backend's base URL
+  baseURL: import.meta.env.PROD ? import.meta.env.VITE_REACT_APP_BASE_URL : import.meta.env.VITE_REACT_APP_BASE_URL_DEV, // Default to localhost if env variable is not set
 });
+
 
 // Auth interfaces
 interface AuthPayload {
@@ -88,6 +92,22 @@ export const postUserAnswer = async (data: UserAnswer, token: string): Promise<U
         Authorization: `Bearer ${token}`,
       },
       data: data,
+    },  
+  );
+
+  return response.data;
+};
+
+export const generateNewQuestion  = async (data: NewQuestionRequest, token: string): Promise<Question> => {
+  const topicData = getRandomSubtopic();
+
+  data.topic = topicData.topic;
+  data.subtopic = topicData.subtopic;
+
+  const response = await api.post<Question>(`/oai_queries/generate/new`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },  
   );
 
