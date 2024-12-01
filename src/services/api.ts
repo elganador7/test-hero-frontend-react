@@ -8,6 +8,10 @@ import { getRandomSubtopic } from './util';
 
 const api = axios.create({
   baseURL: import.meta.env.PROD ? import.meta.env.VITE_REACT_APP_BASE_URL : import.meta.env.VITE_REACT_APP_BASE_URL_DEV, // Default to localhost if env variable is not set
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  }
 });
 
 
