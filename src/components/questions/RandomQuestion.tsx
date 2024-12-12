@@ -18,6 +18,7 @@ import {
     generateNewQuestion,
     generateSimilarQuestions,
     getQuestionAnswer,
+    postUserAnswer,
 } from "../../services/api";
 import { Question } from "../../models/Question";
 import styles from "./RandomQuestion.module.scss";
@@ -146,9 +147,22 @@ const RandomQuestion: React.FC = () => {
 
         getQuestionAnswer(question?.id || "", localStorage.getItem("token") || "").then((answer) => {
             if (answer.correct_answer === selectedOption) {
+                const user_id = localStorage.getItem("user_id") || "";
                 setFeedback("Correct! Great job!");
                 setAnsweredCorrectly(true);
                 setIsTimerRunning(false);
+                postUserAnswer(
+                    {   
+                        id : question?.id + "_" + user_id,
+                        user_id: user_id,
+                        question_id: question?.id || "", 
+                        is_correct: (attempts == 1),
+                        subject_area: question?.topic || "",
+                        time_taken: (60 - timeLeft),
+
+                    }, 
+                    localStorage.getItem("token") || "");
+
             } else {
                 setFeedback("Incorrect. Try again!");
             }

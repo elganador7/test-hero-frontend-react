@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { loginUser } from '../../services/api';
+import { handleGoogleAuth, loginUser } from '../../services/api';
 import { Container, TextField, Button, Typography, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -14,8 +15,7 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const resp = await loginUser({ username, password });
-      console.log(resp);
+      await loginUser({ username, password });
       setMessage('Login successful');
 
       // Redirect to the /questions page after successful login
@@ -23,6 +23,15 @@ const Login: React.FC = () => {
     } catch {
       setMessage('Login failed');
     }
+  };
+
+  const handleSuccess = async(response: any) => {
+    const authResponse = await handleGoogleAuth(response);
+    navigate('/');
+  };
+
+  const handleError = () => {
+    setMessage("Login failed");
   };
 
   return (
@@ -62,6 +71,9 @@ const Login: React.FC = () => {
                 <Button type="submit" variant="contained" fullWidth className={styles.button}>
                     Login
                 </Button>
+                <GoogleOAuthProvider clientId={import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID}>
+                  <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+                </GoogleOAuthProvider>
             </Box>
         </Container>
     </div>

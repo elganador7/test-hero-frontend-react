@@ -7,7 +7,7 @@ import { getRandomSubtopic } from './util';
 
 
 const api = axios.create({
-  baseURL: import.meta.env.PROD ? import.meta.env.VITE_REACT_APP_BASE_URL : import.meta.env.VITE_REACT_APP_BASE_URL_DEV, // Default to localhost if env variable is not set
+  baseURL: import.meta.env.PROD ? import.meta.env.VITE_REACT_APP_BASE_URL : import.meta.env.VITE_REACT_APP_BASE_URL_DEV,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
@@ -36,7 +36,6 @@ export const registerUser = async (data: AuthPayload): Promise<AuthResponse> => 
 // Function for user login
 export const loginUser = async (data: AuthPayload): Promise<AuthResponse> => {
   const response = await api.post<AuthResponse>('/auth/login', data);
-  console.log(response);
   localStorage.setItem("token", response.data.token)
   localStorage.setItem("userId", response.data.userId)
   return response.data;
@@ -119,7 +118,6 @@ export const generateNewQuestion  = async (data: NewQuestionRequest, token: stri
 };
 
 export const generateSimilarQuestions = async (questionId: string, token: string): Promise<Question> => {
-  console.log(questionId);
   const response = await api.get(`/oai_queries/generate/similar/${questionId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -127,4 +125,11 @@ export const generateSimilarQuestions = async (questionId: string, token: string
   });
   return response.data;
 };
+
+export const handleGoogleAuth = async (response: any) => {
+  // Send the token to the backend for verification
+  const authResponse = await api.post<AuthResponse>('/auth/google', { token: response.credential })
+  localStorage.setItem("token", authResponse.data.token)
+  localStorage.setItem("userId", authResponse.data.userId)
+}
 
