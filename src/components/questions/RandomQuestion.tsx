@@ -64,14 +64,8 @@ const RandomQuestion: React.FC = () => {
     };
 
     const loadRandomQuestion = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            setError("You must log in first");
-            return;
-        }
-
         try {
-            const data = await fetchRandomQuestion(token);
+            const data = await fetchRandomQuestion();
             reset(data);
         } catch {
             setError("Failed to load a random question");
@@ -92,7 +86,7 @@ const RandomQuestion: React.FC = () => {
             subtopic: "Logarithms and Exponents"
         }
         try {
-            const data = await generateNewQuestion(req, token);
+            const data = await generateNewQuestion(req);
             reset(data);
         } catch {
             setError("Failed to generate a new question");
@@ -104,7 +98,6 @@ const RandomQuestion: React.FC = () => {
         try {
             const data = await generateSimilarQuestions(
                 question?.id,
-                localStorage.getItem("token") || ""
             );
             reset(data);
         } catch {
@@ -156,13 +149,11 @@ const RandomQuestion: React.FC = () => {
                         id : question?.id + "_" + user_id,
                         user_id: user_id,
                         question_id: question?.id || "", 
-                        is_correct: (attempts == 1),
                         subject_area: question?.topic || "",
                         time_taken: (60 - timeLeft),
-
-                    }, 
-                    localStorage.getItem("token") || "");
-
+                        attempts: attempts,
+                    }
+                )
             } else {
                 setFeedback("Incorrect. Try again!");
             }

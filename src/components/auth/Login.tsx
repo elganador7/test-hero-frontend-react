@@ -4,8 +4,10 @@ import { Container, TextField, Button, Typography, Box, Alert } from '@mui/mater
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { useAuth } from '../../services/useAuth';
 
 const Login: React.FC = () => {
+  const { googleAuth, login} = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
@@ -15,7 +17,7 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await loginUser({ username, password });
+      await login(username, password);
       setMessage('Login successful');
 
       // Redirect to the /questions page after successful login
@@ -26,7 +28,7 @@ const Login: React.FC = () => {
   };
 
   const handleSuccess = async(response: any) => {
-    const authResponse = await handleGoogleAuth(response);
+    await googleAuth(response);
     navigate('/');
   };
 

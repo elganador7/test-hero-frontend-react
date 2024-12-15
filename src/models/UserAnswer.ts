@@ -4,6 +4,6 @@ export interface UserAnswer {
     question_id: string;
     subject_area: string;
     time_taken: number;
-    is_correct: boolean;
+    attempts: number;
   }
   
