@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import styles from './UserStats.module.scss';
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -15,18 +17,18 @@ interface UserStat {
 const UserStats: React.FC = () => {
   const [stats, setStats] = useState<UserStat[]>([]);
   const [error, setError] = useState<string>('');
+  const isAuthenticated = useIsAuthenticated();
+  const auth = useAuthUser()
 
   useEffect(() => {
     const fetchStats = async () => {
-      const token = localStorage.getItem('token'); // Assume userId is stored in localStorage
-      const userId = localStorage.getItem('userId');
-      if (!token) {
+      if (!isAuthenticated) {
         setError('User is not logged in.');
         return;
       }
 
       try {
-        const response = await fetch(`/api/stats/${userId}`);
+        const response = await fetch(`/api/stats/${auth.userId}`);
         if (!response.ok) throw new Error('Failed to fetch user stats');
         const data: UserStat[] = await response.json();
         setStats(data);

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { handleGoogleAuth, loginUser } from '../../services/api';
 import { Container, TextField, Button, Typography, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
@@ -28,7 +27,12 @@ const Login: React.FC = () => {
   };
 
   const handleSuccess = async(response: any) => {
-    await googleAuth(response);
+    try {
+      const data = await googleAuth(response);
+    } catch (error) {
+      console.error('Google authentication failed:', error);
+    }
+    
     navigate('/');
   };
 

@@ -12,7 +12,7 @@ interface PerformanceSummary {
 }
 
 const PerformanceSummary: React.FC = () => {
-  const [data, setData] = useState<UserAnswer[] | null>(null);
+  const [data, setData] = useState<PerformanceSummary[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const auth = useAuthUser()
@@ -73,7 +73,7 @@ const PerformanceSummary: React.FC = () => {
                   {data.map((item, index) => (
                     <TableRow key={index}>
                       <TableCell>{item.subject_area}</TableCell>
-                      <TableCell align="right">{item.attempts}</TableCell>
+                      <TableCell align="right">{item.correct_rate}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

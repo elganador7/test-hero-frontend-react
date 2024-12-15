@@ -43,47 +43,18 @@ export const registerUser = async (data: AuthPayload): Promise<AuthResponse> => 
   return response.data;
 };
 
-// Function for user login
-export const loginUser = async (data: AuthPayload): Promise<AuthResponse> => {
-  const response = await api.post<AuthResponse>('/auth/login', data);
-  localStorage.setItem("token", response.data.token)
-  localStorage.setItem("userId", response.data.userId)
-  return response.data;
-};
-
-
 export const fetchRandomQuestion = async (): Promise<Question> => {
-  const response = await api.get('/questions/random', {});
+  const response = await api.get<Question>('/questions/random', {});
 
   if (response.status !== 200) {
     throw new Error('Failed to fetch random question');
   }
 
-  const data = response.data;
-
-  // Ensure the data aligns with the Question model
-  const question: Question = {
-    id: data.id,
-    question_text: data.question_text,
-    options: data.options,
-    test_type: data.test_type,
-    difficulty: data.difficulty,
-    subject: data.subject,
-    topic: data.topic,
-    estimated_time: data.estimated_time,
-    paragraph: data.paragraph,
-  };
-
-  return question;
+  return response.data;
 };
 
-export const getQuestionAnswer = async (questionId: string, token: string): Promise<QuestionAnswer> => {
-  const response = await api.get(`/questionAnswers/${questionId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+export const getQuestionAnswer = async (questionId: string): Promise<QuestionAnswer> => {
+  return (await api.get<QuestionAnswer>(`/questionAnswers/${questionId}`)).data;
 };
 
 export const postUserAnswer = async (data: UserAnswer): Promise<UserAnswer> => {
@@ -95,19 +66,13 @@ export const postUserAnswer = async (data: UserAnswer): Promise<UserAnswer> => {
   return response.data;
 };
 
-export const generateNewQuestion  = async (data: NewQuestionRequest): Promise<Question> => {
+export const generateNewQuestion  = async (): Promise<Question> => {
   const topicData = getRandomSubtopic();
-
-  data.topic = topicData.topic;
-  data.subtopic = topicData.subtopic;
-
-  const response = await api.post<Question>(`/oai_queries/generate/new`, data, {});
-
-  return response.data;
+  return (await api.post<Question>(`/oai_queries/generate/new`, topicData, {})).data;
 };
 
-export const getUserStats = async (userId: string): Promise<UserAnswer[]> => {
-  const response = await api.post<UserAnswer[]>(`/user_answers/user/summary`, {
+export const getUserStats = async (userId: string): Promise<PerformanceSummary[]> => {
+  const response = await api.post<PerformanceSummary[]>(`/user_answers/user/summary`, {
       userId: userId
   });
   return response.data;
@@ -117,11 +82,3 @@ export const generateSimilarQuestions = async (questionId: string): Promise<Ques
   const response = await api.get(`/oai_queries/generate/similar/${questionId}`, {});
   return response.data;
 };
-
-export const handleGoogleAuth = async (response: any) => {
-  // Send the token to the backend for verification
-  const authResponse = await api.post<AuthResponse>('/auth/google', { token: response.credential })
-  localStorage.setItem("token", authResponse.data.token)
-  localStorage.setItem("userId", authResponse.data.userId)
-}
-
