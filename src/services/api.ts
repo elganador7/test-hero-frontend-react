@@ -66,6 +66,14 @@ export const generateNewQuestion  = async (): Promise<Question> => {
   return (await api.post<Question>(`/oai_queries/generate/new`, topicData, {})).data;
 };
 
+export const generateRelevantQuestion = async (test_type: string, subject: string, user_id: string): Promise<Question> => {
+  return (await api.post<Question>(`/oai_queries/generate/relevant`, {
+    test_type: test_type,
+    subject: subject,
+    user_id: user_id,
+  }, {})).data;
+}
+
 export const getUserStats = async (userId: string): Promise<UserPerformanceSummary[]> => {
   const response = await api.post<UserPerformanceSummary[]>(`/user_answers/user/summary`, {
       userId: userId

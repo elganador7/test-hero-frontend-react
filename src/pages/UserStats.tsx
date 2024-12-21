@@ -33,8 +33,9 @@ const UserStats: React.FC = () => {
         if (!response.ok) throw new Error('Failed to fetch user stats');
         const data: UserStat[] = await response.json();
         setStats(data);
-      } catch (err) {
-        setError(err.message || 'Failed to fetch data');
+      } catch (error) {
+        console.error(error);
+        setError(error.message || 'Failed to fetch data');
       }
     };
 

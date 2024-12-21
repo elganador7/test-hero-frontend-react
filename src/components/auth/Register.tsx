@@ -20,7 +20,8 @@ const Register: React.FC = () => {
 
       // Redirect to the /login page after successful registration
       navigate('/login');
-    } catch {
+    } catch (error) {
+      console.error('Registration failed:', error);
       setMessage('Registration failed');
     }
   };
