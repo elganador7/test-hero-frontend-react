@@ -56,7 +56,6 @@ const RandomQuestion: React.FC = () => {
     const reset = (data: Question) => {
         setQuestion(data);
         setTimeLeft(60);
-        console.log(data);
 
         // Shuffle options when question is loaded
         const shuffled = shuffleArray(Object.entries(data.options));
@@ -92,8 +91,8 @@ const RandomQuestion: React.FC = () => {
                 auth.userId,
             );
             reset(data);
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.error(err);
             setError("Failed to generate a new question");
         }
     };
@@ -104,8 +103,8 @@ const RandomQuestion: React.FC = () => {
                 question?.id,
             );
             reset(data);
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            console.error(error);
             setError("Failed to generate a new question");
         }
     };

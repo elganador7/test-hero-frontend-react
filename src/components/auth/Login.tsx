@@ -21,7 +21,8 @@ const Login: React.FC = () => {
 
       // Redirect to the /questions page after successful login
       navigate('/');
-    } catch {
+    } catch (error) {
+      console.error('Login failed:', error);
       setMessage('Login failed');
     }
   };
