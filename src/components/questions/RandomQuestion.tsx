@@ -92,7 +92,7 @@ const RandomQuestion: React.FC = () => {
             );
             reset(data);
         } catch (error) {
-            console.error(err);
+            console.error(error);
             setError("Failed to generate a new question");
         }
     };
