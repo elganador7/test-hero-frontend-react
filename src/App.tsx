@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RandomQuestion from './components/questions/RandomQuestion';
@@ -7,6 +7,16 @@ import { MathJaxContext } from 'better-react-mathjax';
 import HomePage from './pages/HomePage';
 import { Header } from './components/header/Header';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import PerformanceSummaryComponent from './components/performance/PerformanceSummary';
+import AuthProvider from 'react-auth-kit';
+import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
+import { refresh } from './services/refresh';
+
+import createStore from 'react-auth-kit/createStore';
+
+interface IUserData {
+  userId: string;
+}
 
 const App: React.FC = () => {
   const theme = createTheme({
@@ -35,21 +45,36 @@ const App: React.FC = () => {
       },
     },
   });
+
+  const store = createStore({
+    authType: "localstorage",
+    authName: "_auth",
+    cookieDomain: window.location.hostname,
+    cookieSecure: window.location.protocol === 'https:',
+    refresh: refresh
+  });
   
   return(
-    <ThemeProvider theme={theme}>
-      <MathJaxContext>
-        <Router>
-          <Header/>
-          <Routes>
-            <Route path="/" element={<HomePage/>}/>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/randomQuestion" element={<RandomQuestion />} />
-          </Routes>
-        </Router>
-      </MathJaxContext>
-    </ThemeProvider>
+    <AuthProvider
+      store={store}
+    >
+      <ThemeProvider theme={theme}>
+        <MathJaxContext>
+          <BrowserRouter>
+            <Header/>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/" element={<HomePage/>}/>
+              <Route element={<AuthOutlet fallbackPath='/login' />}>
+                <Route path="/randomQuestion" element={<RandomQuestion />} />
+                <Route path="/userPerformance" element={<PerformanceSummaryComponent />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </MathJaxContext>
+      </ThemeProvider>
+    </AuthProvider>
   )
 };
 

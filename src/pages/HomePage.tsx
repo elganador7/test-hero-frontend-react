@@ -14,6 +14,7 @@ import {
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import styles from './HomePage.module.scss';
 import logo from '../assets/test-hero-logo.png';
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
 
 // Custom MUI Theme
 const theme = createTheme({
@@ -45,7 +46,7 @@ const theme = createTheme({
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const isLoggedIn = !!localStorage.getItem('token');
+  const isAuthenticated = useIsAuthenticated();
 
   const handleLogin = () => {
     navigate('/login');
@@ -69,7 +70,7 @@ const HomePage: React.FC = () => {
                   AI-powered standardized test preparation at a price attainable for all students.
                 </Typography>
                 <Box mt={3}>
-                  {!isLoggedIn ? (
+                  {!isAuthenticated ? (
                     <Button
                       variant="contained"
                       color="primary"

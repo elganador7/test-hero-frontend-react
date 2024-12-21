@@ -18,10 +18,15 @@ import {
     generateNewQuestion,
     generateSimilarQuestions,
     getQuestionAnswer,
+    postUserAnswer,
 } from "../../services/api";
 import { Question } from "../../models/Question";
 import styles from "./RandomQuestion.module.scss";
 import { NewQuestionRequest } from "../../models/NewQuestionRequest";
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { UserAnswer } from "../../models/UserAnswer";
+import { IUserData } from "../../models/IUserData";
 
 // Utility function to shuffle an array
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -44,7 +49,8 @@ const RandomQuestion: React.FC = () => {
     const [explanation, setExplanation] = useState<string>("");
     const [timeLeft, setTimeLeft] = useState<number>(60);
     const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
-
+    const isAuthenticated = useIsAuthenticated();
+    const auth = useAuthUser<IUserData>()
 
     const reset = (data: Question) => {
         setQuestion(data);
@@ -62,48 +68,33 @@ const RandomQuestion: React.FC = () => {
         setExplanation("");
     };
 
-    const loadRandomQuestion = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            setError("You must log in first");
-            return;
-        }
-
-        try {
-            const data = await fetchRandomQuestion(token);
-            reset(data);
-        } catch {
-            setError("Failed to load a random question");
-        }
-    };
+    // const loadRandomQuestion = async () => {
+    //     try {
+    //         const data = await fetchRandomQuestion();
+    //         reset(data);
+    //     } catch {
+    //         setError("Failed to load a random question");
+    //     }
+    // };
 
     const loadNewGeneratedQuestion = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) {
+        if (!isAuthenticated) {
             setError("You must log in first");
             return;
         }
 
-        const req : NewQuestionRequest = {
-            test_type: "SAT",
-            subject: "Math",
-            topic: "Intermediate Algebra",
-            subtopic: "Logarithms and Exponents"
-        }
         try {
-            const data = await generateNewQuestion(req, token);
+            const data = await generateNewQuestion();
             reset(data);
         } catch {
             setError("Failed to generate a new question");
         }
     };
 
-
     const generateNewQuestionFromCurrent = async () => {
         try {
             const data = await generateSimilarQuestions(
                 question?.id,
-                localStorage.getItem("token") || ""
             );
             reset(data);
         } catch {
@@ -144,11 +135,25 @@ const RandomQuestion: React.FC = () => {
             return;
         }
 
-        getQuestionAnswer(question?.id || "", localStorage.getItem("token") || "").then((answer) => {
+        getQuestionAnswer(question?.id || "").then((answer) => {
+            setAttempts((prev) => prev + 1);
             if (answer.correct_answer === selectedOption) {
+                const user_id = auth.userId || "";
                 setFeedback("Correct! Great job!");
                 setAnsweredCorrectly(true);
                 setIsTimerRunning(false);
+                const userAnswer : UserAnswer = {
+                    id: "",
+                    user_id: user_id,
+                    question_id: question?.id || "", 
+                    test_type: question?.test_type || "",
+                    subject: question?.subject || "",
+                    topic: question?.topic || "",
+                    subtopic: question?.subtopic || "",
+                    time_taken: (60 - timeLeft),
+                    attempts: attempts,
+                }
+                postUserAnswer(userAnswer);
             } else {
                 setFeedback("Incorrect. Try again!");
             }
@@ -169,9 +174,9 @@ const RandomQuestion: React.FC = () => {
                 <Card className={styles.card}>
                     <CardContent>
                         {(question.paragraph && question.paragraph !== "null") ?? (
-                                <Typography className={styles.questionText} variant="body1" gutterBottom>
-                                        {question.paragraph}
-                                </Typography>
+                            <Typography className={styles.questionText} variant="body1" gutterBottom>
+                                {question.paragraph}
+                            </Typography>
                         )}
                         <Typography className={styles.questionText} variant="body1" gutterBottom>
                             <MathJax>{question.question_text}</MathJax>

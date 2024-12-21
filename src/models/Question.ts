@@ -6,6 +6,7 @@ export interface Question {
     difficulty: number;
     subject: string;
     topic: string;
+    subtopic: string;
     estimated_time: number;
     paragraph: string;
   }

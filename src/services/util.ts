@@ -66,5 +66,9 @@ const data = {
     const randomSubtopic =
       subtopics[Math.floor(Math.random() * subtopics.length)];
   
-    return { topic: randomTopicKey, subtopic: randomSubtopic };
+    return { 
+        test_type: "SAT",
+        subject: "Math",
+        topic: randomTopicKey, 
+        subtopic: randomSubtopic };
   }
