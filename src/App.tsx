@@ -7,12 +7,16 @@ import { MathJaxContext } from 'better-react-mathjax';
 import HomePage from './pages/HomePage';
 import { Header } from './components/header/Header';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import PerformanceSummary from './components/performance/PerformanceSummary';
+import PerformanceSummaryComponent from './components/performance/PerformanceSummary';
 import AuthProvider from 'react-auth-kit';
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
 import { refresh } from './services/refresh';
 
 import createStore from 'react-auth-kit/createStore';
+
+interface IUserData {
+  userId: string;
+}
 
 const App: React.FC = () => {
   const theme = createTheme({
@@ -61,10 +65,10 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/" element={<HomePage/>}/>
               <Route element={<AuthOutlet fallbackPath='/login' />}>
-                <Route path="/" element={<HomePage/>}/>
                 <Route path="/randomQuestion" element={<RandomQuestion />} />
-                <Route path="/userPerformance" element={<PerformanceSummary />} />
+                <Route path="/userPerformance" element={<PerformanceSummaryComponent />} />
               </Route>
             </Routes>
           </BrowserRouter>

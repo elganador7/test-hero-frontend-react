@@ -6,7 +6,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useAuth } from '../../services/useAuth';
 
 const Login: React.FC = () => {
-  const { googleAuth, login} = useAuth();
+  const { googleAuth, login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);

@@ -4,6 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import styles from './UserStats.module.scss';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { IUserData } from '../models/IUserData';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -18,7 +19,7 @@ const UserStats: React.FC = () => {
   const [stats, setStats] = useState<UserStat[]>([]);
   const [error, setError] = useState<string>('');
   const isAuthenticated = useIsAuthenticated();
-  const auth = useAuthUser()
+  const auth = useAuthUser<IUserData>()
 
   useEffect(() => {
     const fetchStats = async () => {

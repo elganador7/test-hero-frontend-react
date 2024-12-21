@@ -3,7 +3,7 @@ import { Question } from '../models/Question';
 import { QuestionAnswer } from '../models/QuestionAnswer';
 import { UserAnswer } from '../models/UserAnswer';
 import { NewQuestionRequest } from '../models/NewQuestionRequest';
-import { PerformanceSummary } from '../models/PerformanceSummary';
+import { UserPerformanceSummary } from '../models/PerformanceSummary';
 import { getRandomSubtopic } from './util';
 
 
@@ -58,12 +58,7 @@ export const getQuestionAnswer = async (questionId: string): Promise<QuestionAns
 };
 
 export const postUserAnswer = async (data: UserAnswer): Promise<UserAnswer> => {
-  const response = await api.post<UserAnswer>(`/user_answers/submitUserAnswer`, {
-      data: data,
-    },  
-  );
-
-  return response.data;
+  return (await api.post<UserAnswer>(`/user_answers/submitUserAnswer`, data, {})).data;
 };
 
 export const generateNewQuestion  = async (): Promise<Question> => {
@@ -71,8 +66,8 @@ export const generateNewQuestion  = async (): Promise<Question> => {
   return (await api.post<Question>(`/oai_queries/generate/new`, topicData, {})).data;
 };
 
-export const getUserStats = async (userId: string): Promise<PerformanceSummary[]> => {
-  const response = await api.post<PerformanceSummary[]>(`/user_answers/user/summary`, {
+export const getUserStats = async (userId: string): Promise<UserPerformanceSummary[]> => {
+  const response = await api.post<UserPerformanceSummary[]>(`/user_answers/user/summary`, {
       userId: userId
   });
   return response.data;

@@ -25,6 +25,8 @@ import styles from "./RandomQuestion.module.scss";
 import { NewQuestionRequest } from "../../models/NewQuestionRequest";
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { UserAnswer } from "../../models/UserAnswer";
+import { IUserData } from "../../models/IUserData";
 
 // Utility function to shuffle an array
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -48,7 +50,7 @@ const RandomQuestion: React.FC = () => {
     const [timeLeft, setTimeLeft] = useState<number>(60);
     const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
     const isAuthenticated = useIsAuthenticated();
-    const auth = useAuthUser()
+    const auth = useAuthUser<IUserData>()
 
     const reset = (data: Question) => {
         setQuestion(data);
@@ -140,19 +142,18 @@ const RandomQuestion: React.FC = () => {
                 setFeedback("Correct! Great job!");
                 setAnsweredCorrectly(true);
                 setIsTimerRunning(false);
-                postUserAnswer(
-                    {   
-                        id : question?.id + "_" + user_id,
-                        user_id: user_id,
-                        question_id: question?.id || "", 
-                        test_type: question?.test_type || "",
-                        subject: question?.subject || "",
-                        topic: question?.topic || "",
-                        subtopic: question?.subtopic || "",
-                        time_taken: (60 - timeLeft),
-                        attempts: attempts,
-                    }
-                )
+                const userAnswer : UserAnswer = {
+                    id: "",
+                    user_id: user_id,
+                    question_id: question?.id || "", 
+                    test_type: question?.test_type || "",
+                    subject: question?.subject || "",
+                    topic: question?.topic || "",
+                    subtopic: question?.subtopic || "",
+                    time_taken: (60 - timeLeft),
+                    attempts: attempts,
+                }
+                postUserAnswer(userAnswer);
             } else {
                 setFeedback("Incorrect. Try again!");
             }

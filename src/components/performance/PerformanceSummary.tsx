@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Box, CircularProgress, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import axios from 'axios';
 import styles from './PerformanceSummary.module.scss';
 import { getUserStats } from '../../services/api';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { UserAnswer } from '../../models/UserAnswer';
+import { UserPerformanceSummary } from '../../models/PerformanceSummary';
+import { IUserData } from '../../models/IUserData';
 
-interface PerformanceSummary {
-  subject_area: string;
-  correct_rate: number;
-}
-
-const PerformanceSummary: React.FC = () => {
-  const [data, setData] = useState<PerformanceSummary[] | null>(null);
+const PerformanceSummaryComponent: React.FC = () => {
+  const [data, setData] = useState<UserPerformanceSummary[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const auth = useAuthUser()
+  const auth = useAuthUser<IUserData>()
 
   useEffect(() => {
     const fetchPerformanceSummary = async () => {
       try {
         const response = await getUserStats(auth.userId);
+        console.log(response)
         setData(response);
-        console.log(response);
       } catch (err) {
         setError('Failed to fetch performance summary');
       } finally {
@@ -51,8 +46,6 @@ const PerformanceSummary: React.FC = () => {
     );
   }
 
-  console.log(data);
-
   return (
     <div className={styles.centerWrapper}>
       <Container maxWidth="md">
@@ -72,8 +65,8 @@ const PerformanceSummary: React.FC = () => {
                 <TableBody>
                   {data.map((item, index) => (
                     <TableRow key={index}>
-                      <TableCell>{item.subject_area}</TableCell>
-                      <TableCell align="right">{item.correct_rate}</TableCell>
+                      <TableCell>{item.subtopic}</TableCell>
+                      <TableCell align="right">{(item.correct_rate * 100).toFixed(2)}%</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -90,4 +83,4 @@ const PerformanceSummary: React.FC = () => {
   );
 };
 
-export default PerformanceSummary;
+export default PerformanceSummaryComponent;
