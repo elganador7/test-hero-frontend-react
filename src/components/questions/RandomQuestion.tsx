@@ -16,6 +16,7 @@ import { MathJax } from "better-react-mathjax";
 import {
     fetchRandomQuestion,
     generateNewQuestion,
+    generateRelevantQuestion,
     generateSimilarQuestions,
     getQuestionAnswer,
     postUserAnswer,
@@ -55,6 +56,7 @@ const RandomQuestion: React.FC = () => {
     const reset = (data: Question) => {
         setQuestion(data);
         setTimeLeft(60);
+        console.log(data);
 
         // Shuffle options when question is loaded
         const shuffled = shuffleArray(Object.entries(data.options));
@@ -84,9 +86,14 @@ const RandomQuestion: React.FC = () => {
         }
 
         try {
-            const data = await generateNewQuestion();
+            const data = await generateRelevantQuestion(
+                "ACT",
+                "Math",
+                auth.userId,
+            );
             reset(data);
-        } catch {
+        } catch (err) {
+            console.log(err);
             setError("Failed to generate a new question");
         }
     };
@@ -97,7 +104,8 @@ const RandomQuestion: React.FC = () => {
                 question?.id,
             );
             reset(data);
-        } catch {
+        } catch (err) {
+            console.error(err);
             setError("Failed to generate a new question");
         }
     };
@@ -146,10 +154,7 @@ const RandomQuestion: React.FC = () => {
                     id: "",
                     user_id: user_id,
                     question_id: question?.id || "", 
-                    test_type: question?.test_type || "",
-                    subject: question?.subject || "",
-                    topic: question?.topic || "",
-                    subtopic: question?.subtopic || "",
+                    test_topic_id: question.test_topic.id,
                     time_taken: (60 - timeLeft),
                     attempts: attempts,
                 }
@@ -166,7 +171,7 @@ const RandomQuestion: React.FC = () => {
     return (
         <Box className={styles.container}>
             <Typography className={styles.title} variant="h4" color="primary" gutterBottom>
-                Math: {question?.topic || ""}
+                {question?.test_topic?.topic || "Math" }: {question?.test_topic?.subtopic || ""}
             </Typography>
             {error ? (
                 <Alert severity="error">{error}</Alert>

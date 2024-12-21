@@ -41,8 +41,6 @@ export const useAuth = () => {
             const response = await api.post('/auth/google', { token: googleResponse.credential });
             const { token, userId } = response.data;
 
-            console.log(token, userId);
-
             // Store the token and update Auth state
             return signIn({
                 auth: {

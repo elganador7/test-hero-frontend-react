@@ -16,7 +16,6 @@ const PerformanceSummaryComponent: React.FC = () => {
     const fetchPerformanceSummary = async () => {
       try {
         const response = await getUserStats(auth.userId);
-        console.log(response)
         setData(response);
       } catch (err) {
         setError('Failed to fetch performance summary');
@@ -65,7 +64,7 @@ const PerformanceSummaryComponent: React.FC = () => {
                 <TableBody>
                   {data.map((item, index) => (
                     <TableRow key={index}>
-                      <TableCell>{item.subtopic}</TableCell>
+                      <TableCell>{item.specific_topic}</TableCell>
                       <TableCell align="right">{(item.correct_rate * 100).toFixed(2)}%</TableCell>
                     </TableRow>
                   ))}
