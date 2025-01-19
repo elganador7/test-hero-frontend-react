@@ -3,8 +3,7 @@ import { Container, Typography, Box, CircularProgress, Alert, Table, TableBody, 
 import styles from './PerformanceSummary.module.scss';
 import { getUserStats } from '../../services/api';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { UserPerformanceSummary } from '../../models/PerformanceSummary';
-import { IUserData } from '../../models/IUserData';
+import { UserPerformanceSummary, IUserData } from "../../models/index"
 
 const PerformanceSummaryComponent: React.FC = () => {
   const [data, setData] = useState<UserPerformanceSummary[] | null>(null);
@@ -57,15 +56,27 @@ const PerformanceSummaryComponent: React.FC = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Subject Area</TableCell>
+                    <TableCell>Subtopic</TableCell>
+                    <TableCell>Specific Topic</TableCell>
                     <TableCell align="right">Correct Rate (%)</TableCell>
+                    <TableCell align="right">Total Points</TableCell>
+                    <TableCell align="right">Total Points Possible</TableCell>
+                    <TableCell align="right">Difficulty Rating</TableCell>
+                    <TableCell align="right">Weighting Formula Value</TableCell>
+                    <TableCell align="right">Scored Question Count</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {data.map((item, index) => (
                     <TableRow key={index}>
+                      <TableCell>{item.subtopic}</TableCell>
                       <TableCell>{item.specific_topic}</TableCell>
                       <TableCell align="right">{(item.correct_rate * 100).toFixed(2)}%</TableCell>
+                      <TableCell align="right">{item.total_points.toFixed(2)}</TableCell>
+                      <TableCell align="right">{item.total_points_possible.toFixed(2)}</TableCell>
+                      <TableCell align="right">{((item.total_points/item.total_points_possible)).toFixed(2)}</TableCell>
+                      <TableCell align="right">{(item.total_points*item.total_points/item.total_points_possible).toFixed(2)}</TableCell>
+                      <TableCell align="right">{item.question_count}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

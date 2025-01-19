@@ -1,9 +1,5 @@
 import axios from 'axios';
-import { Question } from '../models/Question';
-import { QuestionAnswer } from '../models/QuestionAnswer';
-import { UserAnswer } from '../models/UserAnswer';
-import { NewQuestionRequest } from '../models/NewQuestionRequest';
-import { UserPerformanceSummary } from '../models/PerformanceSummary';
+import { Question, QuestionAnswer, UserAnswer, UserPerformanceSummary } from '../models/index';
 import { getRandomSubtopic } from './util';
 
 
