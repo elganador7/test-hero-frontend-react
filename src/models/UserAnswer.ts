@@ -5,5 +5,6 @@ export interface UserAnswer {
     time_taken: number;
     test_topic_id: string;
     attempts: number;
+    difficulty: number;
   }
   

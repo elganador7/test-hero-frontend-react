@@ -14,22 +14,18 @@ import {
 } from "@mui/material";
 import { MathJax } from "better-react-mathjax";
 import {
-    fetchRandomQuestion,
-    generateNewQuestion,
     generateRelevantQuestion,
     generateSimilarQuestions,
     getQuestionAnswer,
     postUserAnswer,
 } from "../../services/api";
-import { Question } from "../../models/Question";
+import { IUserData,Question, UserAnswer } from "../../models/index";
 import styles from "./RandomQuestion.module.scss";
-import { NewQuestionRequest } from "../../models/NewQuestionRequest";
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { UserAnswer } from "../../models/UserAnswer";
-import { IUserData } from "../../models/IUserData";
+import SubmitOrNext from "../../components/questions/SubmitOrNext";
 
-// Utility function to shuffle an array
+// Utility function to shufflex an array
 const shuffleArray = <T,>(array: T[]): T[] => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -51,6 +47,7 @@ const RandomQuestion: React.FC = () => {
     const [timeLeft, setTimeLeft] = useState<number>(60);
     const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
     const isAuthenticated = useIsAuthenticated();
+    const [isLoading, setIsLoading] = useState(false);
     const auth = useAuthUser<IUserData>()
 
     const reset = (data: Question) => {
@@ -79,8 +76,10 @@ const RandomQuestion: React.FC = () => {
     // };
 
     const loadNewGeneratedQuestion = async () => {
+        setIsLoading(true);
         if (!isAuthenticated) {
             setError("You must log in first");
+            setIsLoading(false);
             return;
         }
 
@@ -95,6 +94,7 @@ const RandomQuestion: React.FC = () => {
             console.error(error);
             setError("Failed to generate a new question");
         }
+        setIsLoading(false);
     };
 
     const generateNewQuestionFromCurrent = async () => {
@@ -156,6 +156,7 @@ const RandomQuestion: React.FC = () => {
                     test_topic_id: question.test_topic.id,
                     time_taken: (60 - timeLeft),
                     attempts: attempts,
+                    difficulty: question.difficulty,
                 }
                 postUserAnswer(userAnswer);
             } else {
@@ -169,12 +170,15 @@ const RandomQuestion: React.FC = () => {
 
     return (
         <Box className={styles.container}>
-            <Typography className={styles.title} variant="h4" color="primary" gutterBottom>
-                {question?.test_topic?.topic || "Math" }: {question?.test_topic?.subtopic || ""}
-            </Typography>
+            {!isLoading && (
+                    <Typography className={styles.title} variant="h4" color="primary" align="center" gutterBottom>
+                        {question?.test_topic?.subtopic || "Math" }: {question?.test_topic?.specific_topic || ""}
+                    </Typography>
+                )
+            }
             {error ? (
                 <Alert severity="error">{error}</Alert>
-            ) : question ? (
+            ) : (question && !isLoading) ? (
                 <Card className={styles.card}>
                     <CardContent>
                         {(question.paragraph && question.paragraph !== "null") ?? (
@@ -223,28 +227,13 @@ const RandomQuestion: React.FC = () => {
                                 <Typography variant="h6">{`Difficulty: ${Math.round(question.difficulty * 100)} /100`}</Typography>
                             </Box>
                         )}
-                        <Box className={styles.actions}>
-                            {!answeredCorrectly ? (
-                                <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>
-                                    Submit Answer
-                                </Button>
-                            ) : (
-                                <Button variant="contained" color="secondary" fullWidth onClick={loadNewGeneratedQuestion}>
-                                    Next Question
-                                </Button>
-                            )}
-                            {answeredCorrectly && (
-                                <Button
-                                    variant="outlined"
-                                    color="info"
-                                    fullWidth
-                                    className={styles.moreQuestionsButton}
-                                    onClick={generateNewQuestionFromCurrent}
-                                >
-                                    Generate More Like This
-                                </Button>
-                            )}
-                        </Box>
+                        <SubmitOrNext 
+                            answeredCorrectly={answeredCorrectly} 
+                            reset={reset} setError={setError} 
+                            question={question} 
+                            handleSubmit={handleSubmit} 
+                            loadNewGeneratedQuestion={loadNewGeneratedQuestion} 
+                        />
                     </CardContent>
                 </Card>
             ) : (

@@ -1,52 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  AppBar,
-  Toolbar,
   Typography,
   Container,
   Grid,
-  Card,
-  CardContent,
   Button,
   Box,
 } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import styles from './HomePage.module.scss';
-import logo from '../assets/test-hero-logo.png';
+import logo from '../../assets/test-hero-logo.png'
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
-
-// Custom MUI Theme
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#0D3B66', // Muted Navy
-    },
-    secondary: {
-      main: '#FAE1DD', // Soft Peach
-    },
-    background: {
-      default: '#F9F9F9', // Off-White
-    },
-    text: {
-      primary: '#2E2E2E', // Dark Gray
-      secondary: '#6B6B6B', // Medium Gray
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h1: {
-      fontWeight: 700,
-    },
-    h2: {
-      fontWeight: 600,
-    },
-  },
-});
+import MissionStatement from '../../components/homePage/MissionStatement';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
+
 
   const handleLogin = () => {
     navigate('/login');
@@ -95,7 +64,7 @@ const HomePage: React.FC = () => {
                 <div className={styles.imageWrapper}>
                   <img
                     src={logo}
-                    alt="Hero Illustration"
+                    alt="TestHero Logo"
                     className={styles.heroImage}
                   />
                 </div>
@@ -105,20 +74,7 @@ const HomePage: React.FC = () => {
         </Box>
 
         {/* Mission Section */}
-        <Container>
-          <Card className={styles.missionCard}>
-            <CardContent>
-              <Typography variant="h4" component="h2" className={styles.missionTitle}>
-                Our Mission
-              </Typography>
-              <Typography variant="body1" className={styles.missionText}>
-                TestHero is dedicated to bridging the education gap by providing personalized and accessible test
-                preparation solutions. Using cutting-edge AI, we help students tackle their weaknesses and build
-                confidence for exams like the SAT and ACT.
-              </Typography>
-            </CardContent>
-          </Card>
-        </Container>
+        <MissionStatement/>
 
         {/* Footer */}
         <Box

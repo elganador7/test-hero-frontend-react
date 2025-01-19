@@ -6,4 +6,7 @@ export interface UserPerformanceSummary {
     subtopic: string;     // The subtopic or detailed focus area
     specific_topic: string; // The specific topic within the subtopic
     correct_rate: number;  // The average correct rate (e.g., 0.85 for 85%)
+    total_points: number;  // The total number of points earned
+    total_points_possible: number; // The total number of points possible
+    question_count: number; // The total number of questions scored
   }

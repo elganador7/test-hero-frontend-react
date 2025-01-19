@@ -1,22 +1,11 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import RandomQuestion from './components/questions/RandomQuestion';
 import { MathJaxContext } from 'better-react-mathjax';
-import HomePage from './pages/HomePage';
-import { Header } from './components/header/Header';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import PerformanceSummaryComponent from './components/performance/PerformanceSummary';
 import AuthProvider from 'react-auth-kit';
-import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
 import { refresh } from './services/refresh';
 
 import createStore from 'react-auth-kit/createStore';
-
-interface IUserData {
-  userId: string;
-}
+import Router from './router/Router';
 
 const App: React.FC = () => {
   const theme = createTheme({
@@ -60,18 +49,7 @@ const App: React.FC = () => {
     >
       <ThemeProvider theme={theme}>
         <MathJaxContext>
-          <BrowserRouter>
-            <Header/>
-            <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/" element={<HomePage/>}/>
-              <Route element={<AuthOutlet fallbackPath='/login' />}>
-                <Route path="/randomQuestion" element={<RandomQuestion />} />
-                <Route path="/userPerformance" element={<PerformanceSummaryComponent />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+          <Router/>
         </MathJaxContext>
       </ThemeProvider>
     </AuthProvider>
