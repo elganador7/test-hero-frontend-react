@@ -1,32 +1,21 @@
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Drawer,
-  Box,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import styles from "./Header.module.scss";
 import { useNavigate } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
-import ArrowForward from "@mui/icons-material/ArrowForward";
-import Report from "@mui/icons-material/Report";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useSignOut from "react-auth-kit/hooks/useSignOut";
-import { useState } from "react";
 
-export const Header: React.FC = () => {
+export interface HeaderProps{
+  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const Header = ({ setIsDrawerOpen }:  HeaderProps) => {
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
   const signOut = useSignOut();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  
 
   const handleLogin = () => {
     navigate("/login");
@@ -36,11 +25,6 @@ export const Header: React.FC = () => {
     signOut();
     setIsDrawerOpen(false);
     navigate("/");
-  };
-
-  const handleNavigate = (path: string) => {
-    setIsDrawerOpen(false);
-    navigate(path);
   };
 
   return (
@@ -55,7 +39,7 @@ export const Header: React.FC = () => {
             <IconButton
               color="inherit"
               edge="start"
-              onClick={() => setIsDrawerOpen(prev => !prev)}
+              onClick={() => setIsDrawerOpen((prev) => !prev)}
             >
               <MenuIcon />
             </IconButton>
@@ -87,40 +71,6 @@ export const Header: React.FC = () => {
           )}
         </Toolbar>
       </AppBar>
-
-      {/* Drawer */}
-      <Drawer
-        variant="temporary"
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        ModalProps={{ keepMounted: true }}
-      >
-        <Box
-          sx={{
-            width: 250,
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            paddingTop: 8,
-          }}
-        >
-          <List>
-            <ListItemButton onClick={() => handleNavigate("/randomQuestion")}>
-              <ListItemIcon>
-                <ArrowForward />
-              </ListItemIcon>
-              <ListItemText primary="Practice Now" />
-            </ListItemButton>
-            <ListItemButton onClick={() => handleNavigate("/userPerformance")}>
-              <ListItemIcon>
-                <Report />
-              </ListItemIcon>
-              <ListItemText primary="Your Performance" />
-            </ListItemButton>
-          </List>
-        </Box>
-      </Drawer>
     </>
   );
 };
