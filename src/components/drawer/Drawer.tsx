@@ -7,7 +7,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ArrowForward, Report } from "@mui/icons-material";
+import { ArrowForward, Home, Report } from "@mui/icons-material";
 
 export interface DrawerProps{
     isDrawerOpen: boolean;
@@ -41,6 +41,12 @@ export const Drawer = ({isDrawerOpen, setIsDrawerOpen} : DrawerProps) => {
           }}
         >
           <List>
+            <ListItemButton onClick={() => handleNavigate("/")}>
+              <ListItemIcon>
+                <Home />
+              </ListItemIcon>              
+              <ListItemText primary="Home" />
+            </ListItemButton>
             <ListItemButton onClick={() => handleNavigate("/randomQuestion")}>
               <ListItemIcon>
                 <ArrowForward />
