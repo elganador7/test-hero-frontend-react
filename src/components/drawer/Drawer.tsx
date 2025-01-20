@@ -9,17 +9,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ArrowForward, Home, Report } from "@mui/icons-material";
 
-export interface DrawerProps{
-    isDrawerOpen: boolean;
-    setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>
+export interface DrawerProps {
+  isDrawerOpen: boolean;
+  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Drawer = ({isDrawerOpen, setIsDrawerOpen} : DrawerProps) => {
-    const navigate = useNavigate();
-    const handleNavigate = (path: string) => {
-        setIsDrawerOpen(false);
-        navigate(path);
-      };
+export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
+  const navigate = useNavigate();
+  const handleNavigate = (path: string) => {
+    setIsDrawerOpen(false);
+    navigate(path);
+  };
 
   return (
     <>
@@ -44,7 +44,7 @@ export const Drawer = ({isDrawerOpen, setIsDrawerOpen} : DrawerProps) => {
             <ListItemButton onClick={() => handleNavigate("/")}>
               <ListItemIcon>
                 <Home />
-              </ListItemIcon>              
+              </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItemButton>
             <ListItemButton onClick={() => handleNavigate("/randomQuestion")}>

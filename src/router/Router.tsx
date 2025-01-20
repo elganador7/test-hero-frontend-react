@@ -15,7 +15,7 @@ const Router: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <Header setIsDrawerOpen={setIsDrawerOpen}/>
+      <Header setIsDrawerOpen={setIsDrawerOpen} />
       <Box
         sx={{
           marginTop: 9,
@@ -35,10 +35,7 @@ const Router: React.FC = () => {
           </Route>
         </Routes>
       </Box>
-      <Drawer
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
+      <Drawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
     </BrowserRouter>
   );
 };

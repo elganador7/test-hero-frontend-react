@@ -7,15 +7,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useSignOut from "react-auth-kit/hooks/useSignOut";
 
-export interface HeaderProps{
-  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>
+export interface HeaderProps {
+  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Header = ({ setIsDrawerOpen }:  HeaderProps) => {
+export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
   const signOut = useSignOut();
-  
 
   const handleLogin = () => {
     navigate("/login");
