@@ -1,27 +1,27 @@
-import React from 'react';
-import { MathJaxContext } from 'better-react-mathjax';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import AuthProvider from 'react-auth-kit';
-import { refresh } from './services/refresh';
+import React from "react";
+import { MathJaxContext } from "better-react-mathjax";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import AuthProvider from "react-auth-kit";
+import { refresh } from "./services/refresh";
 
-import createStore from 'react-auth-kit/createStore';
-import Router from './router/Router';
+import createStore from "react-auth-kit/createStore";
+import Router from "./router/Router";
 
 const App: React.FC = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#0D3B66', // Muted Navy
+        main: "#0D3B66", // Muted Navy
       },
       secondary: {
-        main: '#FAE1DD', // Soft Peach
+        main: "#FAE1DD", // Soft Peach
       },
       background: {
-        default: '#F9F9F9', // Off-White
+        default: "#F9F9F9", // Off-White
       },
       text: {
-        primary: '#2E2E2E', // Dark Gray
-        secondary: '#6B6B6B', // Medium Gray
+        primary: "#2E2E2E", // Dark Gray
+        secondary: "#6B6B6B", // Medium Gray
       },
     },
     typography: {
@@ -39,21 +39,19 @@ const App: React.FC = () => {
     authType: "localstorage",
     authName: "_auth",
     cookieDomain: window.location.hostname,
-    cookieSecure: window.location.protocol === 'https:',
-    refresh: refresh
+    cookieSecure: window.location.protocol === "https:",
+    refresh: refresh,
   });
-  
-  return(
-    <AuthProvider
-      store={store}
-    >
+
+  return (
+    <AuthProvider store={store}>
       <ThemeProvider theme={theme}>
         <MathJaxContext>
-          <Router/>
+          <Router />
         </MathJaxContext>
       </ThemeProvider>
     </AuthProvider>
-  )
+  );
 };
 
 export default App;
