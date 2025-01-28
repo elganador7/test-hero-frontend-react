@@ -7,14 +7,19 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ArrowForward, Home, Report } from "@mui/icons-material";
+import { Settings, ArrowForward, Home, Report } from "@mui/icons-material";
 
 export interface DrawerProps {
   isDrawerOpen: boolean;
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCheckoutFormModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
+export const Drawer = ({
+  isDrawerOpen,
+  setIsDrawerOpen,
+  setIsCheckoutFormModalOpen,
+}: DrawerProps) => {
   const navigate = useNavigate();
   const handleNavigate = (path: string) => {
     setIsDrawerOpen(false);
@@ -58,6 +63,18 @@ export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
                 <Report />
               </ListItemIcon>
               <ListItemText primary="Your Performance" />
+            </ListItemButton>
+            <ListItemButton onClick={() => handleNavigate("/testTopicSettings")}>
+              <ListItemIcon>
+                <Report />
+              </ListItemIcon>
+              <ListItemText primary="Select Tests" />
+            </ListItemButton>
+            <ListItemButton onClick={() => setIsCheckoutFormModalOpen(true)}>
+              <ListItemIcon>
+                <Settings />
+              </ListItemIcon>
+              <ListItemText primary="Your Account" />
             </ListItemButton>
           </List>
         </Box>

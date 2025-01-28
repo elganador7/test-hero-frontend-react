@@ -9,9 +9,12 @@ import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
 import { Box } from "@mui/material";
 import { Drawer } from "../components/drawer/Drawer";
 import { useState } from "react";
+import CheckoutFormModal from "../components/stripe/CheckoutFormModal";
+import FilterFormPage from "../components/filterForm/filterFormPage";
 
 const Router: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isCheckoutFormModalOpen, setIsCheckoutFormModalOpen] = useState(false);
 
   return (
     <BrowserRouter>
@@ -32,10 +35,19 @@ const Router: React.FC = () => {
               path="/userPerformance"
               element={<PerformanceSummaryComponent />}
             />
+            <Route path="/testTopicSettings" element={<FilterFormPage />} />
           </Route>
         </Routes>
       </Box>
-      <Drawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
+      <Drawer
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        setIsCheckoutFormModalOpen={setIsCheckoutFormModalOpen}
+      />
+      <CheckoutFormModal
+        isCheckoutFormModalOpen={isCheckoutFormModalOpen}
+        setIsCheckoutFormModalOpen={setIsCheckoutFormModalOpen}
+      />
     </BrowserRouter>
   );
 };
