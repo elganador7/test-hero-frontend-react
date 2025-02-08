@@ -25,31 +25,33 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import SubmitOrNext from "../../components/questions/SubmitOrNext";
 
 const RandomQuestion: React.FC = () => {
-    const [question, setQuestion] = useState<Question | null>(null);
-    const [selectedOption, setSelectedOption] = useState<string | undefined>(undefined);
-    const [options, setOptions] = useState<string[]>([]);
-    const [error, setError] = useState<string>("");
-    const [feedback, setFeedback] = useState<string>("");
-    const [answeredCorrectly, setAnsweredCorrectly] = useState<boolean>(false);
-    const [attempts, setAttempts] = useState<number>(0);
-    const [explanation, setExplanation] = useState<string>("");
-    const [timeLeft, setTimeLeft] = useState<number>(60);
-    const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
-    const isAuthenticated = useIsAuthenticated();
-    const [isLoading, setIsLoading] = useState(false);
-    const auth = useAuthUser<IUserData>()
+  const [question, setQuestion] = useState<Question | undefined>(undefined);
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    undefined
+  );
+  const [options, setOptions] = useState<string[]>([]);
+  const [error, setError] = useState<string>("");
+  const [feedback, setFeedback] = useState<string>("");
+  const [answeredCorrectly, setAnsweredCorrectly] = useState<boolean>(false);
+  const [attempts, setAttempts] = useState<number>(0);
+  const [explanation, setExplanation] = useState<string>("");
+  const [timeLeft, setTimeLeft] = useState<number>(60);
+  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
+  const isAuthenticated = useIsAuthenticated();
+  const [isLoading, setIsLoading] = useState(false);
+  const auth = useAuthUser<IUserData>();
 
-    const reset = (data: Question) => {
-        setQuestion(data);
-        setTimeLeft(60);
-        setOptions(data.options);
-        setIsTimerRunning(true);
-        setAttempts(0);
-        setAnsweredCorrectly(false);
-        setSelectedOption(undefined);
-        setFeedback("");
-        setExplanation("");
-    };
+  const reset = (data: Question) => {
+    setQuestion(data);
+    setTimeLeft(60);
+    setOptions(data.options);
+    setIsTimerRunning(true);
+    setAttempts(0);
+    setAnsweredCorrectly(false);
+    setSelectedOption(undefined);
+    setFeedback("");
+    setExplanation("");
+  };
 
   // const loadRandomQuestion = async () => {
   //     try {
@@ -80,6 +82,7 @@ const RandomQuestion: React.FC = () => {
 
   const generateNewQuestionFromCurrent = async () => {
     try {
+      setQuestion(undefined);
       const data = await generateSimilarQuestions(question?.id);
       reset(data);
     } catch (error) {
@@ -131,7 +134,7 @@ const RandomQuestion: React.FC = () => {
         const userAnswer: UserAnswer = {
           id: "",
           user_id: user_id,
-          question_id: question?.id || "", 
+          question_id: question?.id || "",
           test_topic_id: question.test_topic.id,
           time_taken: 60 - timeLeft,
           attempts: attempts,
@@ -145,77 +148,98 @@ const RandomQuestion: React.FC = () => {
     });
   };
 
-    return (
-        <Box className={styles.container}>
-            {!isLoading && (
-                    <Typography className={styles.title} variant="h4" color="primary" align="center" gutterBottom>
-                        {question?.test_topic?.subtopic || "Math" }: {question?.test_topic?.specific_topic || ""}
-                    </Typography>
-                )
-            }
-            {error ? (
-                <Alert severity="error">{error}</Alert>
-            ) : (question && !isLoading) ? (
-                <Card className={styles.card}>
-                    <CardContent>
-                        {(question.paragraph && question.paragraph !== "null") ?? (
-                            <Typography className={styles.questionText} variant="body1" gutterBottom>
-                                {question.paragraph}
-                            </Typography>
-                        )}
-                        <Typography className={styles.questionText} variant="body1" gutterBottom>
-                            <MathJax>{question.question_text}</MathJax>
-                        </Typography>
-                        <Typography className={styles.timer} variant="body2" color="textSecondary">
-                            Time Left: {timeLeft}s
-                        </Typography>
-                        <FormControl component="fieldset" className={styles.formControl}>
-                            <RadioGroup
-                                value={selectedOption}
-                                onChange={(e) => handleOptionSelect(e.target.value)}
-                            >
-                                {options.map((option, i) => (
-                                    <FormControlLabel
-                                        key={i}
-                                        value={option}
-                                        control={<Radio />}
-                                        label={<MathJax>{option}</MathJax>}
-                                    />
-                                ))}
-                            </RadioGroup>
-                        </FormControl>
-                        {feedback && (
-                            <Alert
-                                className={styles.feedback}
-                                severity={answeredCorrectly ? "success" : "warning"}
-                                sx={{ mt: 2 }}
-                            >
-                                {feedback}
-                            </Alert>
-                        )}
-                        {answeredCorrectly && explanation && (
-                            <Box className={styles.explanation}>
-                                <Typography variant="h6">Explanation:</Typography>
-                                <Typography variant="body2"><MathJax>{explanation}</MathJax></Typography>
-                            </Box>
-                        )}
-                        {answeredCorrectly && question.difficulty && (
-                            <Box className={styles.explanation}>
-                                <Typography variant="h6">{`Difficulty: ${Math.round(question.difficulty * 100)} /100`}</Typography>
-                            </Box>
-                        )}
-                        <SubmitOrNext 
-                            answeredCorrectly={answeredCorrectly} 
-                            reset={reset} setError={setError} 
-                            question={question} 
-                            handleSubmit={handleSubmit} 
-                            loadNewGeneratedQuestion={loadNewGeneratedQuestion} 
-                        />
-                    </CardContent>
-                </Card>
-            ) : (
-                <CircularProgress />
+  return (
+    <Box className={styles.container}>
+      {!isLoading && (
+        <Typography
+          className={styles.title}
+          variant="h4"
+          color="primary"
+          align="center"
+          gutterBottom
+        >
+          {question?.test_topic?.subtopic || "Math"}:{" "}
+          {question?.test_topic?.specific_topic || ""}
+        </Typography>
+      )}
+      {error ? (
+        <Alert severity="error">{error}</Alert>
+      ) : question && !isLoading ? (
+        <Card className={styles.card}>
+          <CardContent>
+            {(question.paragraph && question.paragraph !== "null") ?? (
+              <Typography
+                className={styles.questionText}
+                variant="body1"
+                gutterBottom
+              >
+                {question.paragraph}
+              </Typography>
             )}
+            <Typography
+              className={styles.questionText}
+              variant="body1"
+              gutterBottom
+            >
+              <MathJax>{question.question_text}</MathJax>
+            </Typography>
+            <Typography
+              className={styles.timer}
+              variant="body2"
+              color="textSecondary"
+            >
+              Time Left: {timeLeft}s
+            </Typography>
+            <FormControl component="fieldset" className={styles.formControl}>
+              <RadioGroup
+                value={selectedOption}
+                onChange={(e) => handleOptionSelect(e.target.value)}
+              >
+                {options.map((option, i) => (
+                  <FormControlLabel
+                    key={i}
+                    value={option}
+                    control={<Radio />}
+                    label={<MathJax>{option}</MathJax>}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+            {feedback && (
+              <Alert
+                className={styles.feedback}
+                severity={answeredCorrectly ? "success" : "warning"}
+                sx={{ mt: 2 }}
+              >
+                {feedback}
+              </Alert>
+            )}
+            {answeredCorrectly && explanation && (
+              <Box className={styles.explanation}>
+                <Typography variant="h6">Explanation:</Typography>
+                <Typography variant="body2">
+                  <MathJax>{explanation}</MathJax>
+                </Typography>
+              </Box>
+            )}
+            {answeredCorrectly && question.difficulty && (
+              <Box className={styles.explanation}>
+                <Typography variant="h6">{`Difficulty: ${Math.round(
+                  question.difficulty * 100
+                )} /100`}</Typography>
+              </Box>
+            )}
+            <SubmitOrNext
+              answeredCorrectly={answeredCorrectly}
+              handleSubmit={handleSubmit}
+              loadNewGeneratedQuestion={loadNewGeneratedQuestion}
+              generateNewQuestionFromCurrent={generateNewQuestionFromCurrent}
+            />
+          </CardContent>
+        </Card>
+      ) : (
+        <CircularProgress />
+      )}
     </Box>
   );
 };
