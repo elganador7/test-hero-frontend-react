@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CircularProgress,
-    FormControl,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
-    Typography,
-    Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography,
+  Alert,
 } from "@mui/material";
 import { MathJax } from "better-react-mathjax";
 import {
-    generateRelevantQuestion,
-    generateSimilarQuestions,
-    getQuestionAnswer,
-    postUserAnswer,
+  generateRelevantQuestion,
+  generateSimilarQuestions,
+  getQuestionAnswer,
+  postUserAnswer,
 } from "../../services/api";
-import { IUserData,Question, UserAnswer } from "../../models/index";
+import { IUserData, Question, UserAnswer } from "../../models/index";
 import styles from "./RandomQuestion.module.scss";
-import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import SubmitOrNext from "../../components/questions/SubmitOrNext";
 
 const RandomQuestion: React.FC = () => {
@@ -55,81 +55,101 @@ const RandomQuestion: React.FC = () => {
         setExplanation("");
     };
 
-    // const loadRandomQuestion = async () => {
-    //     try {
-    //         const data = await fetchRandomQuestion();
-    //         reset(data);
-    //     } catch {
-    //         setError("Failed to load a random question");
-    //     }
-    // };
+  // const loadRandomQuestion = async () => {
+  //     try {
+  //         const data = await fetchRandomQuestion();
+  //         reset(data);
+  //     } catch {
+  //         setError("Failed to load a random question");
+  //     }
+  // };
 
-    const loadNewGeneratedQuestion = async () => {
-        setIsLoading(true);
-        if (!isAuthenticated) {
-            setError("You must log in first");
-            setIsLoading(false);
-            return;
+  const loadNewGeneratedQuestion = async () => {
+    setIsLoading(true);
+    if (!isAuthenticated) {
+      setError("You must log in first");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const data = await generateRelevantQuestion("ACT", "Math", auth.userId);
+      reset(data);
+    } catch (error) {
+      console.error(error);
+      setError("Failed to generate a new question");
+    }
+    setIsLoading(false);
+  };
+
+  const generateNewQuestionFromCurrent = async () => {
+    try {
+      const data = await generateSimilarQuestions(question?.id);
+      reset(data);
+    } catch (error) {
+      console.error(error);
+      setError("Failed to generate a new question");
+    }
+  };
+
+  useEffect(() => {
+    loadNewGeneratedQuestion();
+  }, []);
+
+  useEffect(() => {
+    if (!isTimerRunning) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setFeedback("Time is up!");
+          setIsTimerRunning(false);
+          return 0;
         }
+        return prev - 1;
+      });
+    }, 1000);
 
-        try {
-            const data = await generateRelevantQuestion(
-                "ACT",
-                "Math",
-                auth.userId,
-            );
-            reset(data);
-        } catch (error) {
-            console.error(error);
-            setError("Failed to generate a new question");
-        }
-        setIsLoading(false);
-    };
+    return () => clearInterval(timer);
+  }, [isTimerRunning]);
 
-    const generateNewQuestionFromCurrent = async () => {
-        try {
-            const data = await generateSimilarQuestions(
-                question?.id,
-            );
-            reset(data);
-        } catch (error) {
-            console.error(error);
-            setError("Failed to generate a new question");
-        }
-    };
+  const handleOptionSelect = (option: string) => {
+    setSelectedOption(option);
+    setFeedback("");
+  };
 
-    useEffect(() => {
-        loadNewGeneratedQuestion();
-    }, []);
+  const handleSubmit = () => {
+    if (!selectedOption) {
+      setFeedback("Please select an option");
+      return;
+    }
 
-    useEffect(() => {
-        if (!isTimerRunning) return;
+    getQuestionAnswer(question?.id || "").then((answer) => {
+      setAttempts((prev) => prev + 1);
+      if (answer.correct_answer === selectedOption) {
+        const user_id = auth.userId || "";
+        setFeedback("Correct! Great job!");
+        setAnsweredCorrectly(true);
+        setIsTimerRunning(false);
+        const userAnswer: UserAnswer = {
+          id: "",
+          user_id: user_id,
+          question_id: question?.id || "",
+          test_topic_id: question.test_topic.id,
+          time_taken: 60 - timeLeft,
+          attempts: attempts,
+          difficulty: question.difficulty,
+        };
+        postUserAnswer(userAnswer);
+      } else {
+        setFeedback("Incorrect. Try again!");
+      }
+      setExplanation(answer.explanation || "");
+    });
 
-        const timer = setInterval(() => {
-            setTimeLeft((prev) => {
-                if (prev <= 1) {
-                    clearInterval(timer);
-                    setFeedback("Time is up!");
-                    setIsTimerRunning(false);
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, [isTimerRunning]);
-
-    const handleOptionSelect = (option: string) => {
-        setSelectedOption(option);
-        setFeedback("");
-    };
-
-    const handleSubmit = () => {
-        if (!selectedOption) {
-            setFeedback("Please select an option");
-            return;
-        }
+    setAttempts((prev) => prev + 1);
+  };
 
         getQuestionAnswer(question?.id || "").then((answer) => {
             console.log(answer)
@@ -228,9 +248,8 @@ const RandomQuestion: React.FC = () => {
                 </Card>
             ) : (
                 <CircularProgress />
-            )}
-        </Box>
-    );
+    </Box>
+  );
 };
 
 export default RandomQuestion;

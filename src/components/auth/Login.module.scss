@@ -1,41 +1,40 @@
 .centerWrapper {
-    display: flex;
-    justify-content: center;  /* Horizontally center */
-    align-items: center;      /* Vertically center */
-    min-height: 100vh;        /* Full viewport height */
-    background-color: #f0f0f0; /* Optional background color */
-  }
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  min-height: 100vh; /* Full viewport height */
+  background-color: #f0f0f0; /* Optional background color */
+}
 
 /* Flex layout for the container */
 .container {
-    background-color: white;   /* Container background */
-    padding: 32px;             /* Add padding inside the container */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
-    border-radius: 8px; /* Optional: rounded corners */
-    display: flex;
-    flex-direction: column;   /* Stack elements vertically */
-    gap: 20px;                /* Space between elements */
-    width: 100%;              /* Ensure full width */
-    max-width: 600px;         /* Limit the max width */
+  background-color: white; /* Container background */
+  padding: 32px; /* Add padding inside the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+  border-radius: 8px; /* Optional: rounded corners */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  gap: 20px; /* Space between elements */
+  width: 100%; /* Ensure full width */
+  max-width: 600px; /* Limit the max width */
+}
+
+.title {
+  color: #3a86ff;
+  margin-bottom: 1.5rem;
+}
+
+.alert {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.button {
+  margin-top: 1rem;
+  background-color: #3a86ff;
+  color: white;
+
+  &:hover {
+    background-color: #3b73e0;
   }
-  
-  .title {
-    color: #3a86ff;
-    margin-bottom: 1.5rem;
-  }
-  
-  .alert {
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-  
-  .button {
-    margin-top: 1rem;
-    background-color: #3a86ff;
-    color: white;
-  
-    &:hover {
-      background-color: #3b73e0;
-    }
-  }
-  
+}

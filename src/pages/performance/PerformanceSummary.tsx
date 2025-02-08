@@ -1,15 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, CircularProgress, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import styles from './PerformanceSummary.module.scss';
-import { getUserStats } from '../../services/api';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { UserPerformanceSummary, IUserData } from "../../models/index"
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  Typography,
+  Box,
+  CircularProgress,
+  Alert,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import styles from "./PerformanceSummary.module.scss";
+import { getUserStats } from "../../services/api";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { UserPerformanceSummary, IUserData } from "../../models/index";
 
 const PerformanceSummaryComponent: React.FC = () => {
   const [data, setData] = useState<UserPerformanceSummary[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const auth = useAuthUser<IUserData>()
+  const auth = useAuthUser<IUserData>();
 
   useEffect(() => {
     const fetchPerformanceSummary = async () => {
@@ -17,7 +30,7 @@ const PerformanceSummaryComponent: React.FC = () => {
         const response = await getUserStats(auth.userId);
         setData(response);
       } catch (err) {
-        setError('Failed to fetch performance summary');
+        setError("Failed to fetch performance summary");
       } finally {
         setLoading(false);
       }
@@ -71,11 +84,26 @@ const PerformanceSummaryComponent: React.FC = () => {
                     <TableRow key={index}>
                       <TableCell>{item.subtopic}</TableCell>
                       <TableCell>{item.specific_topic}</TableCell>
-                      <TableCell align="right">{(item.correct_rate * 100).toFixed(2)}%</TableCell>
-                      <TableCell align="right">{item.total_points.toFixed(2)}</TableCell>
-                      <TableCell align="right">{item.total_points_possible.toFixed(2)}</TableCell>
-                      <TableCell align="right">{((item.total_points/item.total_points_possible)).toFixed(2)}</TableCell>
-                      <TableCell align="right">{(item.total_points*item.total_points/item.total_points_possible).toFixed(2)}</TableCell>
+                      <TableCell align="right">
+                        {(item.correct_rate * 100).toFixed(2)}%
+                      </TableCell>
+                      <TableCell align="right">
+                        {item.total_points.toFixed(2)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {item.total_points_possible.toFixed(2)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {(
+                          item.total_points / item.total_points_possible
+                        ).toFixed(2)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {(
+                          (item.total_points * item.total_points) /
+                          item.total_points_possible
+                        ).toFixed(2)}
+                      </TableCell>
                       <TableCell align="right">{item.question_count}</TableCell>
                     </TableRow>
                   ))}
