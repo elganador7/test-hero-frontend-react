@@ -1,35 +1,20 @@
 import { Button, Box } from "@mui/material";
 import { Question } from "../../models/Question";
-import { generateSimilarQuestions } from "../../services/api";
 import styles from "./submitOrNext.module.scss";
 
 interface SubmitOrNextProps {
   answeredCorrectly: boolean;
-  reset: (data: Question) => void;
-  setError: (error: string) => void;
   handleSubmit: () => void;
   loadNewGeneratedQuestion: () => void;
-  question: Question;
+  generateNewQuestionFromCurrent: () => void;
 }
 
 const SubmitOrNext = ({
   answeredCorrectly,
-  reset,
-  setError,
-  question,
   handleSubmit,
   loadNewGeneratedQuestion,
+  generateNewQuestionFromCurrent,
 }: SubmitOrNextProps) => {
-  const generateNewQuestionFromCurrent = async () => {
-    try {
-      const data = await generateSimilarQuestions(question?.id);
-      reset(data);
-    } catch (error) {
-      console.error(error);
-      setError("Failed to generate a new question");
-    }
-  };
-
   return (
     <Box className={styles.actions}>
       {!answeredCorrectly ? (

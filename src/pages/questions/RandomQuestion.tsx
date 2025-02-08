@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   Card,
   CardContent,
   CircularProgress,
@@ -25,22 +24,12 @@ import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import SubmitOrNext from "../../components/questions/SubmitOrNext";
 
-// Utility function to shufflex an array
-const shuffleArray = <T,>(array: T[]): T[] => {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-};
-
 const RandomQuestion: React.FC = () => {
-  const [question, setQuestion] = useState<Question | null>(null);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [shuffledOptions, setShuffledOptions] = useState<[string, string][]>(
-    []
+  const [question, setQuestion] = useState<Question | undefined>(undefined);
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    undefined
   );
+  const [options, setOptions] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
   const [feedback, setFeedback] = useState<string>("");
   const [answeredCorrectly, setAnsweredCorrectly] = useState<boolean>(false);
@@ -55,15 +44,11 @@ const RandomQuestion: React.FC = () => {
   const reset = (data: Question) => {
     setQuestion(data);
     setTimeLeft(60);
-
-    // Shuffle options when question is loaded
-    const shuffled = shuffleArray(Object.entries(data.options));
-    setShuffledOptions(shuffled);
-
+    setOptions(data.options);
     setIsTimerRunning(true);
     setAttempts(0);
     setAnsweredCorrectly(false);
-    setSelectedOption(null);
+    setSelectedOption(undefined);
     setFeedback("");
     setExplanation("");
   };
@@ -97,6 +82,7 @@ const RandomQuestion: React.FC = () => {
 
   const generateNewQuestionFromCurrent = async () => {
     try {
+      setQuestion(undefined);
       const data = await generateSimilarQuestions(question?.id);
       reset(data);
     } catch (error) {
@@ -160,8 +146,6 @@ const RandomQuestion: React.FC = () => {
       }
       setExplanation(answer.explanation || "");
     });
-
-    setAttempts((prev) => prev + 1);
   };
 
   return (
@@ -211,12 +195,12 @@ const RandomQuestion: React.FC = () => {
                 value={selectedOption}
                 onChange={(e) => handleOptionSelect(e.target.value)}
               >
-                {shuffledOptions.map(([key, value]) => (
+                {options.map((option, i) => (
                   <FormControlLabel
-                    key={key}
-                    value={key}
+                    key={i}
+                    value={option}
                     control={<Radio />}
-                    label={<MathJax>{value}</MathJax>}
+                    label={<MathJax>{option}</MathJax>}
                   />
                 ))}
               </RadioGroup>
@@ -247,11 +231,9 @@ const RandomQuestion: React.FC = () => {
             )}
             <SubmitOrNext
               answeredCorrectly={answeredCorrectly}
-              reset={reset}
-              setError={setError}
-              question={question}
               handleSubmit={handleSubmit}
               loadNewGeneratedQuestion={loadNewGeneratedQuestion}
+              generateNewQuestionFromCurrent={generateNewQuestionFromCurrent}
             />
           </CardContent>
         </Card>
