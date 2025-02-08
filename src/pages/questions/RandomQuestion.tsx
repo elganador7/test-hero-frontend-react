@@ -25,20 +25,10 @@ import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import SubmitOrNext from "../../components/questions/SubmitOrNext";
 
-// Utility function to shufflex an array
-const shuffleArray = <T,>(array: T[]): T[] => {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-};
-
 const RandomQuestion: React.FC = () => {
     const [question, setQuestion] = useState<Question | null>(null);
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
-    const [shuffledOptions, setShuffledOptions] = useState<[string, string][]>([]);
+    const [selectedOption, setSelectedOption] = useState<string | undefined>(undefined);
+    const [options, setOptions] = useState<string[]>([]);
     const [error, setError] = useState<string>("");
     const [feedback, setFeedback] = useState<string>("");
     const [answeredCorrectly, setAnsweredCorrectly] = useState<boolean>(false);
@@ -55,8 +45,7 @@ const RandomQuestion: React.FC = () => {
         setTimeLeft(60);
 
         // Shuffle options when question is loaded
-        const shuffled = shuffleArray(Object.entries(data.options));
-        setShuffledOptions(shuffled);
+        setOptions(data.options);
 
         setIsTimerRunning(true);
         setAttempts(0);
@@ -143,6 +132,7 @@ const RandomQuestion: React.FC = () => {
         }
 
         getQuestionAnswer(question?.id || "").then((answer) => {
+            console.log(answer)
             setAttempts((prev) => prev + 1);
             if (answer.correct_answer === selectedOption) {
                 const user_id = auth.userId || "";
@@ -197,12 +187,12 @@ const RandomQuestion: React.FC = () => {
                                 value={selectedOption}
                                 onChange={(e) => handleOptionSelect(e.target.value)}
                             >
-                                {shuffledOptions.map(([key, value]) => (
+                                {options.map((option, i) => (
                                     <FormControlLabel
-                                        key={key}
-                                        value={key}
+                                        key={i}
+                                        value={option}
                                         control={<Radio />}
-                                        label={<MathJax>{value}</MathJax>}
+                                        label={<MathJax>{option}</MathJax>}
                                     />
                                 ))}
                             </RadioGroup>
