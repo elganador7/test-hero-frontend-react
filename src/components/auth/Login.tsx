@@ -8,44 +8,45 @@ import {
   Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import styles from "./Login.module.scss";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../../services/useAuth";
+import styles from "./Login.module.scss";
 
 const Login: React.FC = () => {
   const { googleAuth, login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
-
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(username, password);
-      setMessage("Login successful");
-
-      // Redirect to the /questions page after successful login
-      navigate("/");
+      const success = await login(username, password);
+      if (success) {
+        setMessage("Login successful");
+        navigate("/");
+      } else {
+        setMessage("Login failed");
+      }
     } catch (error) {
       console.error("Login failed:", error);
       setMessage("Login failed");
     }
   };
 
-  const handleSuccess = async (response: any) => {
+  const handleGoogleLogin = async () => {
     try {
-      const data = await googleAuth(response);
+      const success = await googleAuth();
+      if (success) {
+        setMessage("Login successful");
+        navigate("/");
+      } else {
+        setMessage("Google login failed");
+      }
     } catch (error) {
-      console.error("Google authentication failed:", error);
+      console.error("Google login failed:", error);
+      setMessage("Google login failed");
     }
-
-    navigate("/");
-  };
-
-  const handleError = () => {
-    setMessage("Login failed");
   };
 
   return (
@@ -70,7 +71,7 @@ const Login: React.FC = () => {
           )}
 
           <TextField
-            label="Username"
+            label="Email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             fullWidth
@@ -93,11 +94,17 @@ const Login: React.FC = () => {
           >
             Login
           </Button>
-          <GoogleOAuthProvider
-            clientId={import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID}
+
+          <Button
+            onClick={handleGoogleLogin}
+            variant="contained"
+            color="secondary"
+            fullWidth
+            className={styles.button}
+            style={{ marginTop: "10px" }}
           >
-            <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
-          </GoogleOAuthProvider>
+            Sign in with Google
+          </Button>
         </Box>
       </Container>
     </div>

@@ -1,22 +1,33 @@
-import { api } from "./api";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
+import { auth } from "../firebase/firebase";
+import { api } from "./api";
 
 export const useAuth = () => {
   const signIn = useSignIn();
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await api.post("/auth/login", { username, password });
-      const { token, userId } = response.data;
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        username,
+        password
+      );
+
+      const idToken = await userCredential.user.getIdToken();
 
       // Store the token and update Auth state
       return signIn({
         auth: {
-          token,
+          token: idToken,
           type: "Bearer",
         },
-        refresh: token,
-        userState: { userId },
+        refresh: idToken,
+        userState: { userId: userCredential.user.uid },
       });
     } catch (error) {
       console.error("Login failed:", error);
@@ -34,21 +45,20 @@ export const useAuth = () => {
     }
   };
 
-  const googleAuth = async (googleResponse: any) => {
+  const googleAuth = async () => {
     try {
-      const response = await api.post("/auth/google", {
-        token: googleResponse.credential,
-      });
-      const { token, userId } = response.data;
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
 
       // Store the token and update Auth state
       return signIn({
         auth: {
-          token,
+          token: idToken,
           type: "Bearer",
         },
-        refresh: token,
-        userState: { userId },
+        refresh: idToken,
+        userState: { userId: result.user.uid },
       });
     } catch (error) {
       console.error("Google authentication failed:", error);
