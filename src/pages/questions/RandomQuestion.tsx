@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   Card,
   CardContent,
   CircularProgress,
@@ -43,14 +42,11 @@ const RandomQuestion: React.FC = () => {
     const reset = (data: Question) => {
         setQuestion(data);
         setTimeLeft(60);
-
-        // Shuffle options when question is loaded
         setOptions(data.options);
-
         setIsTimerRunning(true);
         setAttempts(0);
         setAnsweredCorrectly(false);
-        setSelectedOption(null);
+        setSelectedOption(undefined);
         setFeedback("");
         setExplanation("");
     };
@@ -135,7 +131,7 @@ const RandomQuestion: React.FC = () => {
         const userAnswer: UserAnswer = {
           id: "",
           user_id: user_id,
-          question_id: question?.id || "",
+          question_id: question?.id || "", 
           test_topic_id: question.test_topic.id,
           time_taken: 60 - timeLeft,
           attempts: attempts,
@@ -147,36 +143,7 @@ const RandomQuestion: React.FC = () => {
       }
       setExplanation(answer.explanation || "");
     });
-
-    setAttempts((prev) => prev + 1);
   };
-
-        getQuestionAnswer(question?.id || "").then((answer) => {
-            console.log(answer)
-            setAttempts((prev) => prev + 1);
-            if (answer.correct_answer === selectedOption) {
-                const user_id = auth.userId || "";
-                setFeedback("Correct! Great job!");
-                setAnsweredCorrectly(true);
-                setIsTimerRunning(false);
-                const userAnswer : UserAnswer = {
-                    id: "",
-                    user_id: user_id,
-                    question_id: question?.id || "", 
-                    test_topic_id: question.test_topic.id,
-                    time_taken: (60 - timeLeft),
-                    attempts: attempts,
-                    difficulty: question.difficulty,
-                }
-                postUserAnswer(userAnswer);
-            } else {
-                setFeedback("Incorrect. Try again!");
-            }
-            setExplanation(answer.explanation || "");
-        });
-
-        setAttempts((prev) => prev + 1);
-    };
 
     return (
         <Box className={styles.container}>
@@ -248,6 +215,7 @@ const RandomQuestion: React.FC = () => {
                 </Card>
             ) : (
                 <CircularProgress />
+            )}
     </Box>
   );
 };
