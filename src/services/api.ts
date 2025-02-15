@@ -2,10 +2,12 @@ import axios from "axios";
 import {
   Question,
   QuestionAnswer,
+  TestTopic,
   UserAnswer,
   UserPerformanceSummary,
 } from "../models/index";
 import { getRandomSubtopic } from "./util";
+import { useSettingsStore } from "../store/useSettingsStore";
 
 export const api = axios.create({
   baseURL: import.meta.env.PROD
@@ -74,20 +76,20 @@ export const generateNewQuestion = async (): Promise<Question> => {
 };
 
 export const generateRelevantQuestion = async (
+  user_id: string,
   test_type: string,
-  subject: string,
-  user_id: string
+  subject: string
 ): Promise<Question> => {
+  const topicData = {
+    test_type: test_type,
+    subject: subject,
+    user_id: user_id,
+  };
+
+  console.log(topicData);
+
   return (
-    await api.post<Question>(
-      `/oai_queries/generate/relevant`,
-      {
-        test_type: test_type,
-        subject: subject,
-        user_id: user_id,
-      },
-      {}
-    )
+    await api.post<Question>(`/oai_queries/generate/relevant`, topicData, {})
   ).data;
 };
 

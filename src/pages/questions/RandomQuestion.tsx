@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Box,
   Card,
@@ -18,11 +18,14 @@ import {
   getQuestionAnswer,
   postUserAnswer,
 } from "../../services/api";
-import { IUserData, Question, UserAnswer } from "../../models/index";
+import { IUserData, Question, TestTopic, UserAnswer } from "../../models/index";
 import styles from "./RandomQuestion.module.scss";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import SubmitOrNext from "../../components/questions/SubmitOrNext";
+import { useSettingsStore } from "../../store/useSettingsStore";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "../../services/api";
 
 const RandomQuestion: React.FC = () => {
   const [question, setQuestion] = useState<Question | undefined>(undefined);
@@ -40,6 +43,7 @@ const RandomQuestion: React.FC = () => {
   const isAuthenticated = useIsAuthenticated();
   const [isLoading, setIsLoading] = useState(false);
   const auth = useAuthUser<IUserData>();
+  const { filters } = useSettingsStore();
 
   const reset = (data: Question) => {
     setQuestion(data);
@@ -53,15 +57,6 @@ const RandomQuestion: React.FC = () => {
     setExplanation("");
   };
 
-  // const loadRandomQuestion = async () => {
-  //     try {
-  //         const data = await fetchRandomQuestion();
-  //         reset(data);
-  //     } catch {
-  //         setError("Failed to load a random question");
-  //     }
-  // };
-
   const loadNewGeneratedQuestion = async () => {
     setIsLoading(true);
     if (!isAuthenticated) {
@@ -71,7 +66,11 @@ const RandomQuestion: React.FC = () => {
     }
 
     try {
-      const data = await generateRelevantQuestion("ACT", "Math", auth.userId);
+      const data = await generateRelevantQuestion(
+        auth.userId,
+        filters.testType,
+        filters.subjects[0] ?? "Math"
+      );
       reset(data);
     } catch (error) {
       console.error(error);

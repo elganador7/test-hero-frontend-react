@@ -3,6 +3,7 @@ import { MathJaxContext } from "better-react-mathjax";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AuthProvider from "react-auth-kit";
 import { refresh } from "./services/refresh";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import createStore from "react-auth-kit/createStore";
 import Router from "./router/Router";
@@ -43,14 +44,18 @@ const App: React.FC = () => {
     refresh: refresh,
   });
 
+  const queryClient = new QueryClient();
+
   return (
-    <AuthProvider store={store}>
-      <ThemeProvider theme={theme}>
-        <MathJaxContext>
-          <Router />
-        </MathJaxContext>
-      </ThemeProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider store={store}>
+        <ThemeProvider theme={theme}>
+          <MathJaxContext>
+            <Router />
+          </MathJaxContext>
+        </ThemeProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 

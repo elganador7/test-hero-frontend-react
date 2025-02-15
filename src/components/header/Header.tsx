@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import styles from "./Header.module.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -68,6 +68,14 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
               Sign Out
             </Button>
           )}
+          <Button
+            component={Link}
+            to="/settings"
+            color="inherit"
+            sx={{ textDecoration: "none" }}
+          >
+            Settings
+          </Button>
         </Toolbar>
       </AppBar>
     </>

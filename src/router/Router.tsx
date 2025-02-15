@@ -9,7 +9,7 @@ import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
 import { Box } from "@mui/material";
 import { Drawer } from "../components/drawer/Drawer";
 import { useState } from "react";
-
+import Settings from "../pages/settings/Settings";
 const Router: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -33,6 +33,7 @@ const Router: React.FC = () => {
               element={<PerformanceSummaryComponent />}
             />
           </Route>
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Box>
       <Drawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
