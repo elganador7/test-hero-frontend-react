@@ -26,6 +26,10 @@ import SubmitOrNext from "../../components/questions/SubmitOrNext";
 import { useSettingsStore } from "../../store/useSettingsStore";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../services/api";
+import TimerIcon from "@mui/icons-material/Timer";
+import clsx from "clsx";
+import LoadingQuestion from "../../components/common/LoadingQuestion";
+import DifficultyIndicator from "../../components/questions/DifficultyIndicator";
 
 const RandomQuestion: React.FC = () => {
   const [question, setQuestion] = useState<Question | undefined>(undefined);
@@ -147,97 +151,104 @@ const RandomQuestion: React.FC = () => {
     });
   };
 
+  const getTimerClass = () => {
+    if (timeLeft <= 10) return styles.danger;
+    if (timeLeft <= 30) return styles.warning;
+    return "";
+  };
+
   return (
     <Box className={styles.container}>
-      {!isLoading && (
-        <Typography
-          className={styles.title}
-          variant="h4"
-          color="primary"
-          align="center"
-          gutterBottom
-        >
-          {question?.test_topic?.subtopic || "Math"}:{" "}
-          {question?.test_topic?.specific_topic || ""}
-        </Typography>
-      )}
       {error ? (
         <Alert severity="error">{error}</Alert>
-      ) : question && !isLoading ? (
-        <Card className={styles.card}>
-          <CardContent>
-            {(question.paragraph && question.paragraph !== "null") ?? (
+      ) : !question || isLoading ? (
+        <LoadingQuestion />
+      ) : (
+        <>
+          <Typography
+            className={styles.title}
+            variant="h4"
+            color="primary"
+            align="center"
+            gutterBottom
+          >
+            {question.test_topic?.subtopic || "Math"}:{" "}
+            {question.test_topic?.specific_topic || ""}
+          </Typography>
+          <Card className={styles.card}>
+            <CardContent sx={{ position: "relative" }}>
+              <Typography
+                className={clsx(styles.timer, getTimerClass())}
+                variant="body2"
+                color="textSecondary"
+              >
+                <TimerIcon />
+                {timeLeft}s
+              </Typography>
+              {question.paragraph && question.paragraph !== "null" && (
+                <Typography
+                  className={styles.questionText}
+                  variant="body1"
+                  gutterBottom
+                >
+                  {question.paragraph}
+                </Typography>
+              )}
               <Typography
                 className={styles.questionText}
                 variant="body1"
                 gutterBottom
               >
-                {question.paragraph}
+                <MathJax>{question.question_text}</MathJax>
               </Typography>
-            )}
-            <Typography
-              className={styles.questionText}
-              variant="body1"
-              gutterBottom
-            >
-              <MathJax>{question.question_text}</MathJax>
-            </Typography>
-            <Typography
-              className={styles.timer}
-              variant="body2"
-              color="textSecondary"
-            >
-              Time Left: {timeLeft}s
-            </Typography>
-            <FormControl component="fieldset" className={styles.formControl}>
-              <RadioGroup
-                value={selectedOption}
-                onChange={(e) => handleOptionSelect(e.target.value)}
-              >
-                {options.map((option, i) => (
-                  <FormControlLabel
-                    key={i}
-                    value={option}
-                    control={<Radio />}
-                    label={<MathJax>{option}</MathJax>}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
-            {feedback && (
-              <Alert
-                className={styles.feedback}
-                severity={answeredCorrectly ? "success" : "warning"}
-                sx={{ mt: 2 }}
-              >
-                {feedback}
-              </Alert>
-            )}
-            {answeredCorrectly && explanation && (
-              <Box className={styles.explanation}>
-                <Typography variant="h6">Explanation:</Typography>
-                <Typography variant="body2">
-                  <MathJax>{explanation}</MathJax>
-                </Typography>
-              </Box>
-            )}
-            {answeredCorrectly && question.difficulty && (
-              <Box className={styles.explanation}>
-                <Typography variant="h6">{`Difficulty: ${Math.round(
-                  question.difficulty * 100
-                )} /100`}</Typography>
-              </Box>
-            )}
-            <SubmitOrNext
-              answeredCorrectly={answeredCorrectly}
-              handleSubmit={handleSubmit}
-              loadNewGeneratedQuestion={loadNewGeneratedQuestion}
-              generateNewQuestionFromCurrent={generateNewQuestionFromCurrent}
-            />
-          </CardContent>
-        </Card>
-      ) : (
-        <CircularProgress />
+              <FormControl component="fieldset" className={styles.formControl}>
+                <RadioGroup
+                  value={selectedOption}
+                  onChange={(e) => handleOptionSelect(e.target.value)}
+                  className={styles.radioGroup}
+                >
+                  {options.map((option, i) => (
+                    <FormControlLabel
+                      key={i}
+                      value={option}
+                      control={<Radio />}
+                      label={<MathJax>{option}</MathJax>}
+                      className={styles.radioOption}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+              {feedback && (
+                <Alert
+                  className={styles.feedback}
+                  severity={answeredCorrectly ? "success" : "warning"}
+                  sx={{ mt: 2 }}
+                >
+                  {feedback}
+                </Alert>
+              )}
+              {answeredCorrectly && explanation && (
+                <Box className={styles.explanation}>
+                  <Typography variant="h6">Explanation:</Typography>
+                  <Typography variant="body2">
+                    <MathJax>{explanation}</MathJax>
+                  </Typography>
+                </Box>
+              )}
+              {answeredCorrectly && question.difficulty && (
+                <Box className={styles.difficultyContainer}>
+                  <DifficultyIndicator difficulty={question.difficulty} />
+                </Box>
+              )}
+              <SubmitOrNext
+                answeredCorrectly={answeredCorrectly}
+                handleSubmit={handleSubmit}
+                loadNewGeneratedQuestion={loadNewGeneratedQuestion}
+                generateNewQuestionFromCurrent={generateNewQuestionFromCurrent}
+              />
+            </CardContent>
+          </Card>
+        </>
       )}
     </Box>
   );

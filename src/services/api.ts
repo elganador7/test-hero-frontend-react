@@ -81,9 +81,9 @@ export const generateRelevantQuestion = async (
   subject: string
 ): Promise<Question> => {
   const topicData = {
+    user_id: user_id,
     test_type: test_type,
     subject: subject,
-    user_id: user_id,
   };
 
   console.log(topicData);

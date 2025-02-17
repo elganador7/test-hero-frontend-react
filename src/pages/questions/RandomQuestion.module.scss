@@ -1,43 +1,157 @@
 .container {
-  max-width: 600px;
-  margin: 2rem auto;
   padding: 2rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+
+  .title {
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: visible;
+    padding-top: 1rem;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    .radioGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .radioOption {
+        margin: 0;
+        padding: 0.25rem 0.25rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        background: rgba(0, 0, 0, 0.02);
+
+        @media (prefers-color-scheme: dark) {
+          background: rgba(255, 255, 255, 0.02);
+        }
+
+        &:hover {
+          background: rgba(var(--mui-palette-primary-main-rgb), 0.05);
+          transform: translateX(4px);
+        }
+
+        .MuiRadio-root {}
+
+        .MuiFormControlLabel-label {
+          width: 100%;
+          padding: 0.25rem 0;
+        }
+      }
+    }
+  }
+
+  .questionText {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding-right: 6rem;
+  }
+
+  .timer {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.05);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 2;
+    min-width: 80px;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+    @media (prefers-color-scheme: dark) {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    &.warning {
+      color: var(--mui-palette-warning-main);
+      animation: pulse 1s infinite;
+    }
+
+    &.danger {
+      color: var(--mui-palette-error-main);
+      animation: pulse 0.5s infinite;
+    }
+
+    svg {
+      font-size: 1.2rem;
+    }
+  }
+
+  .formControl {
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .feedback {
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    animation: slideIn 0.3s ease;
+  }
+
+  .explanation {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+    border-left: 4px solid var(--mui-palette-primary-main);
+
+    @media (prefers-color-scheme: dark) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    h6 {
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+  }
 }
 
-.title {
-  margin-bottom: 1.5rem;
-  align-content: center;
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.card {
-  width: 100%;
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.questionText {
-  margin-bottom: 1rem;
-}
-
-.timer {
-  margin-top: 1rem;
-  text-align: right;
-}
-
-.formControl {
-  margin-top: 1rem;
-}
-
-.feedback {
-  margin-top: 1.5rem;
-}
-
-.explanation {
-  margin-top: 2rem;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .actions {
@@ -49,4 +163,15 @@
 
 .moreQuestionsButton {
   margin-top: 1rem;
+}
+
+.difficultyContainer {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.02);
+  
+  @media (prefers-color-scheme: dark) {
+    background: rgba(255, 255, 255, 0.02);
+  }
 }

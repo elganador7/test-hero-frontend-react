@@ -6,6 +6,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useSignOut from "react-auth-kit/hooks/useSignOut";
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useThemeStore } from '../../App';
 
 export interface HeaderProps {
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,6 +18,7 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
   const signOut = useSignOut();
+  const { mode, toggleMode } = useThemeStore();
 
   const handleLogin = () => {
     navigate("/login");
@@ -76,6 +80,9 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
           >
             Settings
           </Button>
+          <IconButton color="inherit" onClick={toggleMode} sx={{ ml: 1 }}>
+            {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
         </Toolbar>
       </AppBar>
     </>

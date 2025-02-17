@@ -3,6 +3,7 @@ import { Header } from "../components/header/Header";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import HomePage from "../pages/homePage/HomePage";
+// import HomePage from "../pages/homePage/HomePage";
 import RandomQuestion from "../pages/questions/RandomQuestion";
 import PerformanceSummaryComponent from "../pages/performance/PerformanceSummary";
 import AuthOutlet from "@auth-kit/react-router/AuthOutlet";

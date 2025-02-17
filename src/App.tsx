@@ -1,40 +1,32 @@
 import React from "react";
 import { MathJaxContext } from "better-react-mathjax";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, useMediaQuery, CssBaseline } from "@mui/material";
 import AuthProvider from "react-auth-kit";
 import { refresh } from "./services/refresh";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
 import createStore from "react-auth-kit/createStore";
 import Router from "./router/Router";
+import getTheme from "./theme/theme";
+import { create } from 'zustand';
+
+interface ThemeStore {
+  mode: 'light' | 'dark';
+  toggleMode: () => void;
+}
+
+export const useThemeStore = create<ThemeStore>((set) => ({
+  mode: 'light',
+  toggleMode: () => set((state) => ({ mode: state.mode === 'light' ? 'dark' : 'light' })),
+}));
 
 const App: React.FC = () => {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#0D3B66", // Muted Navy
-      },
-      secondary: {
-        main: "#FAE1DD", // Soft Peach
-      },
-      background: {
-        default: "#F9F9F9", // Off-White
-      },
-      text: {
-        primary: "#2E2E2E", // Dark Gray
-        secondary: "#6B6B6B", // Medium Gray
-      },
-    },
-    typography: {
-      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-      h1: {
-        fontWeight: 700,
-      },
-      h2: {
-        fontWeight: 600,
-      },
-    },
-  });
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const { mode, toggleMode } = useThemeStore();
+  const theme = React.useMemo(() => getTheme(mode), [mode]);
+  
+  React.useEffect(() => {
+    useThemeStore.setState({ mode: prefersDarkMode ? 'dark' : 'light' });
+  }, [prefersDarkMode]);
 
   const store = createStore({
     authType: "localstorage",
@@ -50,6 +42,7 @@ const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider store={store}>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <MathJaxContext>
             <Router />
           </MathJaxContext>

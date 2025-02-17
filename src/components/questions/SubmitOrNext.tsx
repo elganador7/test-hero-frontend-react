@@ -1,6 +1,9 @@
-import { Button, Box } from "@mui/material";
-import { Question } from "../../models/Question";
-import styles from "./submitOrNext.module.scss";
+import React from 'react';
+import { Box, Button } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import styles from './SubmitOrNext.module.scss';
 
 interface SubmitOrNextProps {
   answeredCorrectly: boolean;
@@ -9,43 +12,45 @@ interface SubmitOrNextProps {
   generateNewQuestionFromCurrent: () => void;
 }
 
-const SubmitOrNext = ({
+const SubmitOrNext: React.FC<SubmitOrNextProps> = ({
   answeredCorrectly,
   handleSubmit,
   loadNewGeneratedQuestion,
   generateNewQuestionFromCurrent,
-}: SubmitOrNextProps) => {
+}) => {
   return (
-    <Box className={styles.actions}>
+    <Box className={styles.container}>
       {!answeredCorrectly ? (
         <Button
           variant="contained"
           color="primary"
-          fullWidth
           onClick={handleSubmit}
+          startIcon={<CheckCircleOutlineIcon />}
+          className={styles.button}
         >
           Submit Answer
         </Button>
       ) : (
-        <Button
-          variant="contained"
-          color="secondary"
-          fullWidth
-          onClick={loadNewGeneratedQuestion}
-        >
-          Next Question
-        </Button>
-      )}
-      {answeredCorrectly && (
-        <Button
-          variant="outlined"
-          color="info"
-          fullWidth
-          className={styles.moreQuestionsButton}
-          onClick={generateNewQuestionFromCurrent}
-        >
-          Generate More Like This
-        </Button>
+        <Box className={styles.buttonGroup}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={loadNewGeneratedQuestion}
+            startIcon={<NavigateNextIcon />}
+            className={styles.button}
+          >
+            Next Question
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={generateNewQuestionFromCurrent}
+            startIcon={<RefreshIcon />}
+            className={styles.button}
+          >
+            Similar Question
+          </Button>
+        </Box>
       )}
     </Box>
   );
