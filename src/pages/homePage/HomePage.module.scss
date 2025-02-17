@@ -1,12 +1,12 @@
 .container {
-  background-color: #f9f9f9; // Off-White
+  // background-color: #f9f9f9; // Off-White
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .hero {
-  background: #ffffff; // White background
+  // background: #ffffff; // White background
   min-height: 100vh; // Full page height
   display: flex;
   align-items: center;
@@ -29,8 +29,8 @@
 }
 
 .primaryButton {
-  background-color: #0d3b66; // Muted Navy
-  color: white;
+  // background-color: #0d3b66; // Muted Navy
+  // color: white;
   font-weight: bold;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -55,16 +55,9 @@
 
 .missionCard {
   margin: 2rem 0;
-  background-color: #ffffff; // White
   color: #2e2e2e; // Dark Gray
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
-}
-
-.footer {
-  background-color: #ffffff; // White footer
-  color: #6b6b6b; // Medium Gray
-  border-top: 1px solid #e0e0e0; // Subtle border
 }
 
 .logo {

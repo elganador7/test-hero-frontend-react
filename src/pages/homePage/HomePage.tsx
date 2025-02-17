@@ -3,12 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { Typography, Container, Grid, Button, Box } from "@mui/material";
 import styles from "./HomePage.module.scss";
 import logo from "../../assets/test-hero-logo.png";
+import darkLogo from "../../assets/test-hero-logo-dark.png";
+import {useThemeStore } from "../../App";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+
 import MissionStatement from "../../components/homePage/MissionStatement";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
+  const { mode } = useThemeStore();
 
   const handleLogin = () => {
     navigate("/login");
@@ -62,7 +66,7 @@ const HomePage: React.FC = () => {
             <Grid item xs={12} md={6}>
               <div className={styles.imageWrapper}>
                 <img
-                  src={logo}
+                  src={mode === "dark" ? darkLogo : logo}
                   alt="TestHero Logo"
                   className={styles.heroImage}
                 />
