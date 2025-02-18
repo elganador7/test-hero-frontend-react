@@ -28,7 +28,10 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
+    "react-markdown": "^9.0.3",
     "react-router-dom": "^6.28.0",
+    "rehype-mathjax": "^7.0.0",
+    "remark-math": "^6.0.0",
     "solid": "link:@types/heroicons/react/24/solid",
     "zustand": "^5.0.3"
   },

@@ -30,6 +30,9 @@ import TimerIcon from "@mui/icons-material/Timer";
 import clsx from "clsx";
 import LoadingQuestion from "../../components/common/LoadingQuestion";
 import DifficultyIndicator from "../../components/questions/DifficultyIndicator";
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeMathjax from 'rehype-mathjax/svg';
 
 const RandomQuestion: React.FC = () => {
   const [question, setQuestion] = useState<Question | undefined>(undefined);
@@ -157,6 +160,43 @@ const RandomQuestion: React.FC = () => {
     return "";
   };
 
+  const renderText = (text: string) => {
+    return (
+      <ReactMarkdown
+        remarkPlugins={[remarkMath]}
+        rehypePlugins={[rehypeMathjax]}
+        components={{
+          p: ({ children }) => (
+            <Typography
+              className={styles.questionText}
+              variant="body1"
+              gutterBottom
+            >
+              {children}
+            </Typography>
+          ),
+          ul: ({ children }) => (
+            <ul className={styles.markdownList}>
+              {children}
+            </ul>
+          ),
+          ol: ({ children }) => (
+            <ol className={styles.markdownList}>
+              {children}
+            </ol>
+          ),
+          li: ({ children }) => (
+            <li className={styles.markdownListItem}>
+              {children}
+            </li>
+          ),
+        }}
+      >
+        {text}
+      </ReactMarkdown>
+    );
+  };
+
   return (
     <Box className={styles.container}>
       {error ? (
@@ -185,21 +225,11 @@ const RandomQuestion: React.FC = () => {
                 <TimerIcon />
                 {timeLeft}s
               </Typography>
+              <Typography>
               {question.paragraph && question.paragraph !== "null" && (
-                <Typography
-                  className={styles.questionText}
-                  variant="body1"
-                  gutterBottom
-                >
-                  {question.paragraph}
-                </Typography>
+                renderText(question.paragraph)
               )}
-              <Typography
-                className={styles.questionText}
-                variant="body1"
-                gutterBottom
-              >
-                <MathJax>{question.question_text}</MathJax>
+              {renderText(question.question_text)}
               </Typography>
               <FormControl component="fieldset" className={styles.formControl}>
                 <RadioGroup
@@ -230,9 +260,7 @@ const RandomQuestion: React.FC = () => {
               {answeredCorrectly && explanation && (
                 <Box className={styles.explanation}>
                   <Typography variant="h6">Explanation:</Typography>
-                  <Typography variant="body2">
-                    <MathJax>{explanation}</MathJax>
-                  </Typography>
+                  {renderText(explanation)}
                 </Box>
               )}
               {answeredCorrectly && question.difficulty && (

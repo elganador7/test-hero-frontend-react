@@ -54,6 +54,44 @@
     line-height: 1.6;
     margin-bottom: 1.5rem;
     padding-right: 6rem;
+
+    // Markdown styles
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .markdownList {
+    margin: 1rem 0;
+    padding-left: 2.5rem;
+    list-style-position: outside;
+
+    &[type="A"] {
+      list-style-type: upper-alpha;
+    }
+
+    &[type="a"] {
+      list-style-type: lower-alpha;
+    }
+
+    &[type="I"] {
+      list-style-type: upper-roman;
+    }
+
+    &[type="i"] {
+      list-style-type: lower-roman;
+    }
+  }
+
+  .markdownListItem {
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    line-height: 1.6;
+    
+    // Style for nested lists
+    .markdownList {
+      margin: 0.5rem 0;
+    }
   }
 
   .timer {
