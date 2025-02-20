@@ -1,6 +1,6 @@
 .container {
   padding: 2rem;
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
 
   .title {
@@ -10,11 +10,29 @@
     transition: color 0.3s ease;
   }
 
+  .panelsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 650px), 1fr));
+    gap: 2rem;
+    align-items: start;
+
+    &.singlePanel {
+      display: flex;
+      justify-content: center;
+
+      .questionCard {
+        max-width: 60%;
+        width: 100%;
+      }
+    }
+  }
+
   .card {
     transition: all 0.3s ease;
     position: relative;
     overflow: visible;
-    padding-top: 1rem;
+    height: 100%;
+    margin-bottom: 0;
 
     &:hover {
       transform: translateY(-2px);
@@ -47,6 +65,15 @@
         }
       }
     }
+  }
+
+  .passageCard {
+    position: sticky;
+    top: 2rem;
+  }
+
+  .questionCard {
+    margin-bottom: 0;
   }
 
   .questionText {
@@ -209,5 +236,22 @@
   
   @media (prefers-color-scheme: dark) {
     background: rgba(255, 255, 255, 0.02);
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    .panelsContainer {
+      grid-template-columns: 1fr;
+
+      &.singlePanel .questionCard {
+        max-width: 100%;
+      }
+    }
+
+    .passageCard {
+      position: relative;
+      top: 0;
+    }
   }
 }

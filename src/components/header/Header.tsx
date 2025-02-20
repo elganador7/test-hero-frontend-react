@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, IconButton, Box } from "@mui/material";
 import styles from "./Header.module.scss";
 import { useNavigate, Link } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
@@ -38,51 +38,59 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar>
-          {isAuthenticated && (
-            <IconButton
-              color="inherit"
-              edge="start"
-              onClick={() => setIsDrawerOpen((prev) => !prev)}
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '33%' }}>
+            {isAuthenticated && (
+              <IconButton
+                color="inherit"
+                edge="start"
+                onClick={() => setIsDrawerOpen((prev) => !prev)}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
+          </Box>
+
+          <Box sx={{ 
+            width: '34%',
+            display: 'flex', 
+            justifyContent: 'center'
+          }}>
+            <Typography
+              variant="h6"
+              className={styles.title}
+              onClick={() => navigate("/")}
             >
-              <MenuIcon />
+              TestScoreHero
+            </Typography>
+          </Box>
+
+          <Box sx={{ 
+            width: '33%',
+            display: 'flex', 
+            justifyContent: 'flex-end',
+            gap: 1
+          }}>
+            {!isAuthenticated ? (
+              <Button
+                color="inherit"
+                startIcon={<LoginIcon />}
+                onClick={handleLogin}
+              >
+                Sign In
+              </Button>
+            ) : (
+              <Button
+                color="inherit"
+                startIcon={<LogoutIcon />}
+                onClick={handleLogout}
+              >
+                Sign Out
+              </Button>
+            )}
+            <IconButton color="inherit" onClick={toggleMode}>
+              {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
-          )}
-          <Typography
-            variant="h6"
-            sx={{ flexGrow: 1 }}
-            className={styles.title}
-            onClick={() => navigate("/")}
-          >
-            TestHero
-          </Typography>
-          {!isAuthenticated ? (
-            <Button
-              color="inherit"
-              startIcon={<LoginIcon />}
-              onClick={handleLogin}
-            >
-              Sign In
-            </Button>
-          ) : (
-            <Button
-              color="inherit"
-              startIcon={<LogoutIcon />}
-              onClick={handleLogout}
-            >
-              Sign Out
-            </Button>
-          )}
-          <Button
-            component={Link}
-            to="/settings"
-            color="inherit"
-            sx={{ textDecoration: "none" }}
-          >
-            Settings
-          </Button>
-          <IconButton color="inherit" onClick={toggleMode} sx={{ ml: 1 }}>
-            {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
     </>

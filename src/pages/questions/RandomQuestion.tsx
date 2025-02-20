@@ -197,6 +197,8 @@ const RandomQuestion: React.FC = () => {
     );
   };
 
+  console.log(question);
+
   return (
     <Box className={styles.container}>
       {error ? (
@@ -215,67 +217,84 @@ const RandomQuestion: React.FC = () => {
             {question.test_topic?.subtopic || "Math"}:{" "}
             {question.test_topic?.specific_topic || ""}
           </Typography>
-          <Card className={styles.card}>
-            <CardContent sx={{ position: "relative" }}>
-              <Typography
-                className={clsx(styles.timer, getTimerClass())}
-                variant="body2"
-                color="textSecondary"
-              >
-                <TimerIcon />
-                {timeLeft}s
-              </Typography>
-              <Typography>
-              {question.paragraph && question.paragraph !== "null" && (
-                renderText(question.paragraph)
-              )}
-              {renderText(question.question_text)}
-              </Typography>
-              <FormControl component="fieldset" className={styles.formControl}>
-                <RadioGroup
-                  value={selectedOption}
-                  onChange={(e) => handleOptionSelect(e.target.value)}
-                  className={styles.radioGroup}
+
+          <Box className={clsx(
+            styles.panelsContainer, 
+            {[styles.singlePanel]: !question.paragraph || question.paragraph === "null"}
+          )}>
+            {question.paragraph && question.paragraph !== "null" && (
+              <Card className={`${styles.card} ${styles.passageCard}`}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom align="center">
+                    Reading Passage
+                  </Typography>
+                  {renderText(question.paragraph)}
+                </CardContent>
+              </Card>
+            )}
+
+            <Card className={`${styles.card} ${styles.questionCard}`}>
+              <CardContent sx={{ position: "relative" }}>
+                <Typography
+                  className={clsx(styles.timer, getTimerClass())}
+                  variant="body2"
+                  color="textSecondary"
                 >
-                  {options.map((option, i) => (
-                    <FormControlLabel
-                      key={i}
-                      value={option}
-                      control={<Radio />}
-                      label={<MathJax>{option}</MathJax>}
-                      className={styles.radioOption}
-                    />
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              {feedback && (
-                <Alert
-                  className={styles.feedback}
-                  severity={answeredCorrectly ? "success" : "warning"}
-                  sx={{ mt: 2 }}
-                >
-                  {feedback}
-                </Alert>
-              )}
-              {answeredCorrectly && explanation && (
-                <Box className={styles.explanation}>
-                  <Typography variant="h6">Explanation:</Typography>
-                  {renderText(explanation)}
-                </Box>
-              )}
-              {answeredCorrectly && question.difficulty && (
-                <Box className={styles.difficultyContainer}>
-                  <DifficultyIndicator difficulty={question.difficulty} />
-                </Box>
-              )}
-              <SubmitOrNext
-                answeredCorrectly={answeredCorrectly}
-                handleSubmit={handleSubmit}
-                loadNewGeneratedQuestion={loadNewGeneratedQuestion}
-                generateNewQuestionFromCurrent={generateNewQuestionFromCurrent}
-              />
-            </CardContent>
-          </Card>
+                  <TimerIcon />
+                  {timeLeft}s
+                </Typography>
+
+                <Typography variant="h6" gutterBottom align="center">
+                  Question
+                </Typography>
+                {renderText(question.question_text)}
+
+                <FormControl component="fieldset" className={styles.formControl}>
+                  <RadioGroup
+                    value={selectedOption}
+                    onChange={(e) => handleOptionSelect(e.target.value)}
+                    className={styles.radioGroup}
+                  >
+                    {options.map((option, i) => (
+                      <FormControlLabel
+                        key={i}
+                        value={option}
+                        control={<Radio />}
+                        label={<MathJax>{option}</MathJax>}
+                        className={styles.radioOption}
+                      />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                {feedback && (
+                  <Alert
+                    className={styles.feedback}
+                    severity={answeredCorrectly ? "success" : "warning"}
+                    sx={{ mt: 2 }}
+                  >
+                    {feedback}
+                  </Alert>
+                )}
+                {answeredCorrectly && explanation && (
+                  <Box className={styles.explanation}>
+                    <Typography variant="h6">Explanation:</Typography>
+                    {renderText(explanation)}
+                  </Box>
+                )}
+                {answeredCorrectly && question.difficulty && (
+                  <Box className={styles.difficultyContainer}>
+                    <DifficultyIndicator difficulty={question.difficulty} />
+                  </Box>
+                )}
+                <SubmitOrNext
+                  answeredCorrectly={answeredCorrectly}
+                  handleSubmit={handleSubmit}
+                  loadNewGeneratedQuestion={loadNewGeneratedQuestion}
+                  generateNewQuestionFromCurrent={generateNewQuestionFromCurrent}
+                />
+              </CardContent>
+            </Card>
+          </Box>
         </>
       )}
     </Box>
