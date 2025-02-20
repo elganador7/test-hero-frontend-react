@@ -224,7 +224,7 @@ const RandomQuestion: React.FC = () => {
           )}>
             {question.paragraph && question.paragraph !== "null" && (
               <Card className={`${styles.card} ${styles.passageCard}`}>
-                <CardContent>
+                <CardContent className={styles.cardContent}>
                   <Typography variant="h6" gutterBottom align="center">
                     Reading Passage
                   </Typography>

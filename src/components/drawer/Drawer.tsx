@@ -5,9 +5,11 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ArrowForward, Home, Report } from "@mui/icons-material";
+import { ArrowForward, Home, Report, QuestionMark, Settings } from "@mui/icons-material";
+import styles from "./Drawer.module.scss";
 
 export interface DrawerProps {
   isDrawerOpen: boolean;
@@ -20,6 +22,19 @@ export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
     setIsDrawerOpen(false);
     navigate(path);
   };
+
+  const menuItems = [
+    {
+      text: "Practice Questions",
+      icon: <QuestionMark />,
+      path: "/randomQuestion"
+    },
+    {
+      text: "Settings",
+      icon: <Settings />,
+      path: "/settings"
+    }
+  ];
 
   return (
     <>
@@ -47,18 +62,17 @@ export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
               </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItemButton>
-            <ListItemButton onClick={() => handleNavigate("/randomQuestion")}>
-              <ListItemIcon>
-                <ArrowForward />
-              </ListItemIcon>
-              <ListItemText primary="Practice Now" />
-            </ListItemButton>
-            <ListItemButton onClick={() => handleNavigate("/userPerformance")}>
-              <ListItemIcon>
-                <Report />
-              </ListItemIcon>
-              <ListItemText primary="Your Performance" />
-            </ListItemButton>
+            {menuItems.map((item) => (
+              <ListItemButton
+                key={item.text}
+                onClick={() => handleNavigate(item.path)}
+              >
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            ))}
           </List>
         </Box>
       </MuiDrawer>
