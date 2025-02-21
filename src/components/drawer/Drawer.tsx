@@ -5,13 +5,11 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { 
   Home, 
   QuestionMark, 
-  Settings,
   Assessment
 } from "@mui/icons-material";
 import styles from "./Drawer.module.scss";
@@ -39,11 +37,6 @@ export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
       icon: <Assessment />,
       path: "/performance"
     },
-    {
-      text: "Settings",
-      icon: <Settings />,
-      path: "/settings"
-    }
   ];
 
   return (
