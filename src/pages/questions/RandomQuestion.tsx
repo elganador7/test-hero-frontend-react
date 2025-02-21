@@ -84,6 +84,7 @@ const RandomQuestion: React.FC = () => {
         filters.testType,
         filters.subjects[0] ?? "Math"
       );
+      console.log(data);
       reset(data);
     } catch (error) {
       console.error(error);
@@ -137,6 +138,7 @@ const RandomQuestion: React.FC = () => {
     }
 
     getQuestionAnswer(question?.id || "").then((answer) => {
+      console.log(answer);
       setAttempts((prev) => prev + 1);
       if (answer.correct_answer === selectedOption) {
         const user_id = auth.userId || "";

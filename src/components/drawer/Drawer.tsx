@@ -8,7 +8,12 @@ import {
   Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ArrowForward, Home, Report, QuestionMark, Settings } from "@mui/icons-material";
+import { 
+  Home, 
+  QuestionMark, 
+  Settings,
+  Assessment
+} from "@mui/icons-material";
 import styles from "./Drawer.module.scss";
 
 export interface DrawerProps {
@@ -27,7 +32,12 @@ export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
     {
       text: "Practice Questions",
       icon: <QuestionMark />,
-      path: "/randomQuestion"
+      path: "/practice"
+    },
+    {
+      text: "Performance Summary",
+      icon: <Assessment />,
+      path: "/performance"
     },
     {
       text: "Settings",

@@ -27,7 +27,7 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
   const { mode, toggleMode } = useThemeStore();
   const { filters, setFilter, clearFilter } = useSettingsStore();
 
-  const showFilters = location.pathname === '/randomQuestion';
+  const showFilters = location.pathname === '/practice';
 
   const { data: allTopics } = useQuery({
     queryKey: ["topics"],

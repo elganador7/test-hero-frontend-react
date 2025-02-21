@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
   };
 
   const handlePractice = () => {
-    navigate("/randomQuestion");
+    navigate("/practice");
   };
 
   const scrollToContent = () => {

@@ -28,9 +28,9 @@ const Router: React.FC = () => {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/" element={<HomePage />} />
           <Route element={<AuthOutlet fallbackPath="/login" />}>
-            <Route path="/randomQuestion" element={<RandomQuestion />} />
+            <Route path="/practice" element={<RandomQuestion />} />
             <Route
-              path="/userPerformance"
+              path="/performance"
               element={<PerformanceSummaryComponent />}
             />
           </Route>
