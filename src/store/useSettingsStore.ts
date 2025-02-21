@@ -1,14 +1,10 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { TestTopic } from '../models/TestTopic';
 
 interface SettingsState {
   filters: {
     testType: string;
     subjects: string[];
-    topics: string[];
-    subtopics: string[];
-    specificTopics: string[];
   };
   setFilter: (field: keyof SettingsState['filters'], value: string | string[]) => void;
   clearFilter: (field: keyof SettingsState['filters']) => void;
@@ -22,9 +18,6 @@ export const useSettingsStore = create<SettingsState>()(
         filters: {
           testType: '',
           subjects: [],
-          topics: [],
-          subtopics: [],
-          specificTopics: [],
         },
         setFilter: (field, value) =>
           set((state) => ({
@@ -37,7 +30,7 @@ export const useSettingsStore = create<SettingsState>()(
           set((state) => ({
             filters: {
               ...state.filters,
-              [field]: field === 'testType' ? '' : [],
+              [field]: [],
             },
           })),
         clearAllFilters: () =>
@@ -45,9 +38,6 @@ export const useSettingsStore = create<SettingsState>()(
             filters: {
               testType: '',
               subjects: [],
-              topics: [],
-              subtopics: [],
-              specificTopics: [],
             },
           }),
       }),

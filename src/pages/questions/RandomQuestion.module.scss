@@ -296,3 +296,38 @@
     }
   }
 }
+
+.errorContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.errorAlert {
+  max-width: 400px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+  
+  :global(.MuiAlert-icon) {
+    font-size: 2rem;
+    margin-right: 1rem;
+  }
+
+  :global(.MuiAlert-message) {
+    padding: 8px 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

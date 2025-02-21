@@ -72,6 +72,12 @@ const RandomQuestion: React.FC = () => {
       return;
     }
 
+    if (filters.subjects.length === 0 || filters.testType === "") {
+      setError("Please select a subject and test type");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const data = await generateRelevantQuestion(
         auth.userId,
@@ -197,12 +203,18 @@ const RandomQuestion: React.FC = () => {
     );
   };
 
-  console.log(question);
-
   return (
     <Box className={styles.container}>
       {error ? (
-        <Alert severity="error">{error}</Alert>
+        <Box className={styles.errorContainer}>
+          <Alert 
+            severity="error"
+            variant="outlined"
+            className={styles.errorAlert}
+          >
+            {error}
+          </Alert>
+        </Box>
       ) : !question || isLoading ? (
         <LoadingQuestion />
       ) : (
@@ -214,8 +226,8 @@ const RandomQuestion: React.FC = () => {
             align="center"
             gutterBottom
           >
-            {question.test_topic?.subtopic || "Math"}:{" "}
-            {question.test_topic?.specific_topic || ""}
+            {question.test_topic?.test_type || "Math"}:{" "}
+            {question.test_topic?.subject || ""}
           </Typography>
 
           <Box className={clsx(
@@ -245,7 +257,8 @@ const RandomQuestion: React.FC = () => {
                 </Typography>
 
                 <Typography variant="h6" gutterBottom align="center">
-                  Question
+                  {question.test_topic?.subtopic || "Math"}:{" "}
+                  {question.test_topic?.specific_topic || ""}
                 </Typography>
                 {renderText(question.question_text)}
 

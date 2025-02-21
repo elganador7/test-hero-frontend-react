@@ -1,83 +1,67 @@
 import React from "react";
 import {
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
-  Chip,
   OutlinedInput,
-  Box,
-  IconButton,
   SelectChangeEvent,
 } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
+import styles from "./FilterSelect.module.scss";
+import clsx from "clsx";
 
 interface FilterSelectProps {
-  label: string;
+  placeholder?: string;
   value: string | string[];
   options: string[];
-  multiple?: boolean;
   onChange: (value: string | string[]) => void;
   onClear: () => void;
+  variant?: 'normal' | 'small';
 }
 
 const FilterSelect: React.FC<FilterSelectProps> = ({
-  label,
+  placeholder,
   value,
   options,
-  multiple = false,
   onChange,
-  onClear,
+  variant = 'normal'
 }) => {
   const handleChange = (event: SelectChangeEvent<string | string[]>) => {
     onChange(event.target.value);
   };
 
-  const handleChipDelete = (chipToDelete: string) => {
-    if (Array.isArray(value)) {
-      onChange(value.filter((item) => item !== chipToDelete));
-    }
-  };
-
-  const handleClearClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    onClear();
-  };
+  const isSmall = variant === 'small';
+  const hasValue = (value as string[]).length > 0;
 
   return (
-    <FormControl fullWidth margin="normal">
-      <InputLabel>{label}</InputLabel>
+    <FormControl 
+      size={isSmall ? "small" : "medium"}
+      className={clsx(styles.formControl, {
+        [styles.small]: isSmall,
+        [styles.normal]: !isSmall,
+      })}
+    >
       <Select
         value={value}
         onChange={handleChange}
-        label={label}
-        multiple={multiple}
-        input={<OutlinedInput label={label} />}
-        renderValue={multiple ? (selected: unknown) => (
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {(selected as string[]).map((value) => (
-              <Chip
-                key={value}
-                label={value}
-                onDelete={() => handleChipDelete(value)}
-              />
-            ))}
-          </Box>
-        ) : undefined}
-        endAdornment={
-          (multiple ? (value as string[]).length > 0 : value) ? (
-            <IconButton
-              size="small"
-              sx={{ mr: 4 }}
-              onClick={handleClearClick}
-            >
-              <ClearIcon />
-            </IconButton>
-          ) : null
-        }
+        displayEmpty
+        input={<OutlinedInput />}
+        className={styles.select}
+        classes={{
+          select: styles.input
+        }}
+        renderValue={(selected) => {
+          if (!hasValue) {
+            return <span className={styles.placeholder}>{placeholder}</span>;
+          }
+          return selected as string;
+        }}
       >
         {options.map((option) => (
-          <MenuItem key={option} value={option}>
+          <MenuItem 
+            key={option} 
+            value={option}
+            className={styles.menuItem}
+          >
             {option}
           </MenuItem>
         ))}

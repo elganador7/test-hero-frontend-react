@@ -7,7 +7,6 @@ import {
   UserPerformanceSummary,
 } from "../models/index";
 import { getRandomSubtopic } from "./util";
-import { useSettingsStore } from "../store/useSettingsStore";
 
 export const api = axios.create({
   baseURL: import.meta.env.PROD
@@ -86,8 +85,6 @@ export const generateRelevantQuestion = async (
     subject: subject,
   };
 
-  console.log(topicData);
-
   return (
     await api.post<Question>(`/oai_queries/generate/relevant`, topicData, {})
   ).data;
@@ -113,4 +110,8 @@ export const generateSimilarQuestions = async (
     {}
   );
   return response.data;
+};
+
+export const getTestTopics = async (): Promise<TestTopic[]> => {
+  return (await api.get<TestTopic[]>("/test_topics/")).data;
 };
