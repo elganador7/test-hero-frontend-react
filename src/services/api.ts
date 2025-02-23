@@ -7,11 +7,10 @@ import {
   UserPerformanceSummary,
 } from "../models/index";
 import { getRandomSubtopic } from "./util";
+import { config } from "../config/env";
 
 export const api = axios.create({
-  baseURL: import.meta.env.PROD
-    ? import.meta.env.VITE_REACT_APP_BASE_URL
-    : import.meta.env.VITE_REACT_APP_BASE_URL_DEV,
+  baseURL: config.apiUrl,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

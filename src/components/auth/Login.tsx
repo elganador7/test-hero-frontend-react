@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.scss";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../../services/useAuth";
+import { config } from '../../config/env';
 
 const Login: React.FC = () => {
   const { googleAuth, login } = useAuth();
@@ -94,7 +95,7 @@ const Login: React.FC = () => {
             Login
           </Button>
           <GoogleOAuthProvider
-            clientId={import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID}
+            clientId={config.googleClientId}
           >
             <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
           </GoogleOAuthProvider>
