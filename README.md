@@ -17,6 +17,7 @@ TestHero is an AI-powered standardized test preparation platform that provides p
 
 - Node.js (v16 or higher)
 - npm (v7 or higher)
+- pnpm (v9 or higher)
 - A modern web browser
 
 ### Installation
@@ -31,35 +32,12 @@ cd testhero
 2. Install dependencies:
 
 ```bash
-npm install
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm (v7 or higher)
-- A modern web browser
-
-### Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/testhero.git
-cd testhero
-```
-
-2. Install dependencies:
-
-```bash
-npm install
+pnpm install
 ```
 
 3. Create a `.env` file in the root directory with your environment variables:
 ```env
-VITE_API_URL=your_api_url_here
+VITE_REACT_APP_BASE_URL_DEV=http://localhost:8080/api
 ```
 
 ### Development
