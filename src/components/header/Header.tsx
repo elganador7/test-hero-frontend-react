@@ -63,20 +63,15 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
       position="fixed"
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
     >
-      <Toolbar sx={{ gap: 2, position: 'relative' }}>
+      <Toolbar className={styles.toolbar}>
         {/* Left section */}
-        <Box sx={{ 
-          position: 'absolute',
-          left: 0,
-          display: 'flex',
-          alignItems: 'center',
-          pl: 2,
-        }}>
+        <Box className={styles.leftSection}>
           {isAuthenticated && (
             <IconButton
               color="inherit"
               edge="start"
               onClick={() => setIsDrawerOpen((prev) => !prev)}
+              className={styles.menuButton}
             >
               <MenuIcon />
             </IconButton>
@@ -84,13 +79,7 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
         </Box>
 
         {/* Center section - always centered */}
-        <Box sx={{ 
-          position: 'absolute',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          alignItems: 'center',
-        }}>
+        <Box className={styles.centerSection}>
           <Typography
             variant="h6"
             className={styles.title}
@@ -102,13 +91,7 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
 
         {/* Filters section */}
         {isAuthenticated && showFilters && (
-          <Box sx={{ 
-            display: 'flex', 
-            gap: 1,
-            ml: { xs: 5, sm: 8 }, // Adjust based on menu button
-            flex: 1,
-            maxWidth: '400px',
-          }}>
+          <Box className={styles.filtersSection}>
             <FilterSelect
               placeholder="Choose test..."
               value={filters.testType}
@@ -140,14 +123,7 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
         )}
 
         {/* Right section */}
-        <Box sx={{ 
-          position: 'absolute',
-          right: 0,
-          display: 'flex', 
-          gap: 1,
-          pr: 2,
-          alignItems: 'center',
-        }}>
+        <Box className={styles.rightSection}>
           {!isAuthenticated ? (
             <Button
               color="inherit"
@@ -168,7 +144,7 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
           <IconButton 
             color="inherit" 
             onClick={toggleMode}
-            sx={{ ml: 1 }}
+            className={styles.themeToggle}
           >
             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>

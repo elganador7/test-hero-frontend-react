@@ -46,7 +46,7 @@ export const registerUser = async (
   return response.data;
 };
 
-export const fetchRandomQuestion = async (): Promise<Question> => {
+export const fetchRelevantQuestion = async (): Promise<Question> => {
   const response = await api.get<Question>("/questions/random", {});
 
   if (response.status !== 200) {

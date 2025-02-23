@@ -19,7 +19,7 @@ import {
   postUserAnswer,
 } from "../../services/api";
 import { IUserData, Question, TestTopic, UserAnswer } from "../../models/index";
-import styles from "./RandomQuestion.module.scss";
+import styles from "./RelevantQuestion.module.scss";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import SubmitOrNext from "../../components/questions/SubmitOrNext";
@@ -34,7 +34,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeMathjax from 'rehype-mathjax/svg';
 
-const RandomQuestion: React.FC = () => {
+const RelevantQuestion: React.FC = () => {
   const [question, setQuestion] = useState<Question | undefined>(undefined);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     undefined
@@ -84,7 +84,6 @@ const RandomQuestion: React.FC = () => {
         filters.testType,
         filters.subjects[0] ?? "Math"
       );
-      console.log(data);
       reset(data);
     } catch (error) {
       console.error(error);
@@ -138,7 +137,6 @@ const RandomQuestion: React.FC = () => {
     }
 
     getQuestionAnswer(question?.id || "").then((answer) => {
-      console.log(answer);
       setAttempts((prev) => prev + 1);
       if (answer.correct_answer === selectedOption) {
         const user_id = auth.userId || "";
@@ -316,4 +314,4 @@ const RandomQuestion: React.FC = () => {
   );
 };
 
-export default RandomQuestion;
+export default RelevantQuestion;

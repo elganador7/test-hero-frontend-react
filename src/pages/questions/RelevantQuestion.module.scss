@@ -14,7 +14,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 650px), 1fr));
     gap: 2rem;
-    align-items: start;
+    align-items: stretch;
+    min-height: calc(100vh - 200px);
 
     &.singlePanel {
       display: flex;
@@ -31,8 +32,17 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: visible;
+    display: flex;
+    flex-direction: column;
     height: 100%;
     margin-bottom: 0;
+
+    .cardContent {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+    }
 
     &:hover {
       transform: translateY(-2px);
@@ -71,12 +81,9 @@
     position: sticky;
     top: 2rem;
     max-height: calc(100vh - 200px);
-    display: flex;
-    flex-direction: column;
 
     .cardContent {
       overflow-y: auto;
-      flex-grow: 1;
       padding-right: 1rem;
 
       &::-webkit-scrollbar {
