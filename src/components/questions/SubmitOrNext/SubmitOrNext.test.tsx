@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import SubmitOrNext from '../../../components/questions/SubmitOrNext';
+import SubmitOrNext from './SubmitOrNext';
 import { ThemeProvider } from '@mui/material';
 import getTheme from '../../../theme/theme';
 

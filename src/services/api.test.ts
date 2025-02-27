@@ -1,5 +1,4 @@
-import { mockAxiosInstance } from '../../mocks/axisMock';
-import { getTestTopics, generateRelevantQuestion, getUserStats } from '../../../services/api';
+import { mockAxiosInstance } from '../mocks/axisMock';
 
 describe('API Services', () => {
   beforeEach(() => {

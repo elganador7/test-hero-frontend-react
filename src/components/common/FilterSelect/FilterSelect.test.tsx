@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import FilterSelect from '../../../components/common/FilterSelect';
+import FilterSelect from '../../../components/common/FilterSelect/FilterSelect';
 import { ThemeProvider } from '@mui/material';
 import getTheme from '../../../theme/theme';
 

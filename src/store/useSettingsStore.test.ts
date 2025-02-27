@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
-import { useSettingsStore } from '../../../store/useSettingsStore';
+import { useSettingsStore } from './useSettingsStore';
 
 describe('useSettingsStore', () => {
   beforeEach(() => {
@@ -54,4 +54,13 @@ describe('useSettingsStore', () => {
       subjects: [],
     });
   });
+}); 
+
+it('should clear specific filter', () => {
+  const { result } = renderHook(() => useSettingsStore());
+  act(() => {
+    result.current.setFilter('testType', 'SAT');
+    result.current.clearFilter('testType');
+  });
+  expect(result.current.filters.testType).toStrictEqual([]); 
 }); 

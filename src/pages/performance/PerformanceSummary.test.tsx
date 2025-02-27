@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import PerformanceSummary from '../../../pages/performance/PerformanceSummary';
+import PerformanceSummary from './PerformanceSummary';
 import { ThemeProvider } from '@mui/material';
-import getTheme from '../../../theme/theme';
-import { getUserStats } from '../../../services/api';
+import getTheme from '../../theme/theme';
+import { getUserStats } from '../../services/api';
 
-jest.mock('../../../services/api');
+jest.mock('../../services/api');
 const mockedGetUserStats = getUserStats as jest.MockedFunction<typeof getUserStats>;
 
 jest.mock('react-auth-kit/hooks/useAuthUser', () => ({

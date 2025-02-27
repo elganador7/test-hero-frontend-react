@@ -11,7 +11,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useThemeStore } from '../../App';
 import { useQuery } from "@tanstack/react-query";
 import { getTestTopics } from "../../services/api";
-import FilterSelect from "../common/FilterSelect";
+import FilterSelect from "../common/FilterSelect/FilterSelect";
 import { useSettingsStore } from "../../store/useSettingsStore";
 import { useMemo } from "react";
 

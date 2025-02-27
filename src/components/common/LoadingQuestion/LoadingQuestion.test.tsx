@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import LoadingQuestion from '../../../components/common/LoadingQuestion';
+import LoadingQuestion from './LoadingQuestion';
 import { ThemeProvider } from '@mui/material';
 import getTheme from '../../../theme/theme';
 

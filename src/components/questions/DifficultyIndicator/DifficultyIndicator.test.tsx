@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import DifficultyIndicator from '../../../components/questions/DifficultyIndicator';
+import DifficultyIndicator from '../../../components/questions/DifficultyIndicator/DifficultyIndicator';
 import { ThemeProvider } from '@mui/material';
 import getTheme from '../../../theme/theme';
 

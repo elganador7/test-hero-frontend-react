@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { Header } from '../../../components/header/Header';
+import { Header } from './Header';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import getTheme from '../../../theme/theme';
+import getTheme from '../../theme/theme';
 
 // Mock the auth hooks
 jest.mock('react-auth-kit/hooks/useIsAuthenticated', () => ({
@@ -18,7 +18,7 @@ jest.mock('react-auth-kit/hooks/useSignOut', () => ({
 }));
 
 // Mock the theme store
-jest.mock('../../../App', () => ({
+jest.mock('../../App', () => ({
   useThemeStore: () => ({
     mode: 'light',
     toggleMode: jest.fn(),
@@ -26,7 +26,7 @@ jest.mock('../../../App', () => ({
 }));
 
 // Mock the settings store
-jest.mock('../../../store/useSettingsStore', () => ({
+jest.mock('../../store/useSettingsStore', () => ({
   useSettingsStore: () => ({
     filters: {
       testType: '',

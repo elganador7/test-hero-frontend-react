@@ -10,7 +10,7 @@ export default {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   testMatch: [
-    '<rootDir>/src/tests/**/*.test.{ts,tsx}',
+    '<rootDir>/src/**/*.test.{ts,tsx}',
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
