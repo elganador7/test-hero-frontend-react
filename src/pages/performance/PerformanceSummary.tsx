@@ -93,7 +93,7 @@ const PerformanceSummaryComponent: React.FC = () => {
                 <TableBody>
                   {data.map((item, index) => (
                     <TableRow key={index}>
-                      <TableCell>{item.testType}</TableCell>
+                      <TableCell>{item.test_type}</TableCell>
                       <TableCell>{item.topic}</TableCell>
                       <TableCell>{item.subtopic}</TableCell>
                       <TableCell>{item.specific_topic}</TableCell>

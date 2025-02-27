@@ -30,7 +30,7 @@ describe('PerformanceSummary', () => {
 
   it('displays performance data when loaded', async () => {
     const mockStats = [{
-      testType: 'SAT',
+      test_type: 'SAT',
       topic: 'Math',
       subject: 'Mathematics',
       subtopic: 'Algebra',
