@@ -2,15 +2,15 @@ import axios from "axios";
 import {
   Question,
   QuestionAnswer,
+  TestTopic,
   UserAnswer,
   UserPerformanceSummary,
 } from "../models/index";
 import { getRandomSubtopic } from "./util";
+import { config } from "../config/env";
 
 export const api = axios.create({
-  baseURL: import.meta.env.PROD
-    ? import.meta.env.VITE_REACT_APP_BASE_URL
-    : import.meta.env.VITE_REACT_APP_BASE_URL_DEV,
+  baseURL: config.apiUrl,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export const registerUser = async (
   return response.data;
 };
 
-export const fetchRandomQuestion = async (): Promise<Question> => {
+export const fetchRelevantQuestion = async (): Promise<Question> => {
   const response = await api.get<Question>("/questions/random", {});
 
   if (response.status !== 200) {
@@ -74,20 +74,18 @@ export const generateNewQuestion = async (): Promise<Question> => {
 };
 
 export const generateRelevantQuestion = async (
+  user_id: string,
   test_type: string,
-  subject: string,
-  user_id: string
+  subject: string
 ): Promise<Question> => {
+  const topicData = {
+    user_id: user_id,
+    test_type: test_type,
+    subject: subject,
+  };
+
   return (
-    await api.post<Question>(
-      `/oai_queries/generate/relevant`,
-      {
-        test_type: test_type,
-        subject: subject,
-        user_id: user_id,
-      },
-      {}
-    )
+    await api.post<Question>(`/oai_queries/generate/relevant`, topicData, {})
   ).data;
 };
 
@@ -111,4 +109,8 @@ export const generateSimilarQuestions = async (
     {}
   );
   return response.data;
+};
+
+export const getTestTopics = async (): Promise<TestTopic[]> => {
+  return (await api.get<TestTopic[]>("/test_topics/")).data;
 };

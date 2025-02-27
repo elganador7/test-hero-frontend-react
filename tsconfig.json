@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "target": "es5",
+      "target": "es2020",
       "lib": ["dom", "esnext"],
       "module": "esnext",
       "moduleResolution": "node",
@@ -8,7 +8,11 @@
       "esModuleInterop": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
-      "types": ["node", "vite/client"]
+      "types": ["node", "vite/client"],
+      "typeRoots": [
+        "./node_modules/@types",
+        "./src/tests/types"
+      ]
     },
     "include": ["src"]
   }

@@ -12,6 +12,8 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Card,
+  CardContent,
 } from "@mui/material";
 import styles from "./PerformanceSummary.module.scss";
 import { getUserStats } from "../../services/api";
@@ -58,17 +60,26 @@ const PerformanceSummaryComponent: React.FC = () => {
   }
 
   return (
-    <div className={styles.centerWrapper}>
-      <Container maxWidth="md">
-        <Box className={styles.container}>
-          <Typography variant="h4" className={styles.title}>
-            Performance Summary
-          </Typography>
+    <Box className={styles.container}>
+      <Typography
+        variant="h4"
+        color="primary"
+        align="center"
+        gutterBottom
+        className={styles.title}
+      >
+        Performance Summary
+      </Typography>
+
+      <Card className={styles.card}>
+        <CardContent>
           {data && data.length > 0 ? (
             <TableContainer component={Paper} className={styles.tableContainer}>
               <Table>
                 <TableHead>
                   <TableRow>
+                    <TableCell>Test Type</TableCell>
+                    <TableCell>Topic</TableCell>
                     <TableCell>Subtopic</TableCell>
                     <TableCell>Specific Topic</TableCell>
                     <TableCell align="right">Correct Rate (%)</TableCell>
@@ -82,6 +93,8 @@ const PerformanceSummaryComponent: React.FC = () => {
                 <TableBody>
                   {data.map((item, index) => (
                     <TableRow key={index}>
+                      <TableCell>{item.test_type}</TableCell>
+                      <TableCell>{item.topic}</TableCell>
                       <TableCell>{item.subtopic}</TableCell>
                       <TableCell>{item.specific_topic}</TableCell>
                       <TableCell align="right">
@@ -115,9 +128,9 @@ const PerformanceSummaryComponent: React.FC = () => {
               No performance data available.
             </Typography>
           )}
-        </Box>
-      </Container>
-    </div>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 

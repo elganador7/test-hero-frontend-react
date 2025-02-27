@@ -1,0 +1,49 @@
+.formControl {
+  &.small {
+    min-width: 140px;
+    max-width: 200px;
+  }
+
+  &.normal {
+    min-width: 200px;
+    max-width: 300px;
+  }
+}
+
+.select {
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff !important;
+
+  .input {
+    padding: 4px 12px;
+    color: #ffffff;
+  }
+
+  :global(.MuiSvgIcon-root) {
+    color: #ffffff;
+  }
+
+  :global(.MuiOutlinedInput-notchedOutline) {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  &:hover :global(.MuiOutlinedInput-notchedOutline) {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &:global(.Mui-focused) :global(.MuiOutlinedInput-notchedOutline) {
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.menuItem {
+  font-size: 0.875rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: inherit;
+} 
