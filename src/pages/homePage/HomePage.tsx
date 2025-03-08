@@ -118,9 +118,6 @@ const HomePage: React.FC = () => {
         component="footer"
         className={styles.footer}
       >
-        <Typography variant="body2" color="textSecondary">
-          © {new Date().getFullYear()} TestScoreHero. All Rights Reserved.
-        </Typography>
       </Box>
     </div>
   );

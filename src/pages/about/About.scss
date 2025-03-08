@@ -1,17 +1,42 @@
 .about-page {
-    padding: 2rem;
-    max-width: 800px;
-    margin: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: clamp(1rem, 5vw, 4rem);
     
-    h1 {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #333;
+    // Add top padding to ensure title is visible
+    padding-top: 0; // Remove extra padding from top since Router already has margin
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    
+    // Title and intro text spacing
+    > h1 {
+        margin-bottom: clamp(2rem, 4vh, 3rem);
     }
-  
-    p {
-    font-size: 1.2rem;
-    color: #555;
-    margin-top: 1rem;
-  }
+    
+    > p:first-of-type {
+        margin-bottom: clamp(3rem, 6vh, 4rem);
+    }
+}
+
+.about-section {
+    margin: clamp(4rem, 15vh, 10rem) 0 !important; // Much larger spacing between sections
+    transition: transform 0.2s ease;
+    padding: clamp(2rem, 4vh, 3rem);
+    
+    &:first-of-type {
+        margin-top: clamp(3rem, 8vh, 6rem) !important; // Less margin at the top
+    }
+    
+    &:last-of-type {
+        margin-bottom: clamp(3rem, 8vh, 6rem) !important; // Less margin at the bottom
+    }
+    
+    &:hover {
+        transform: translateY(-2px);
+    }
 }
