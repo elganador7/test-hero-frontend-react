@@ -1,54 +1,73 @@
-import React from "react";
-import { Box, Paper, Typography, Container } from "@mui/material";
-import "./About.scss"; // Import the SCSS file
+import { Card, CardContent, CardHeader, Typography, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
+import "./About.scss";
+import {useThemeStore } from "../../App";
 
-const About: React.FC = () => {
+
+const sections = [
+  {
+    title: "Our Mission",
+    content:
+      "We believe high-quality test preparation should be accessible to all students, regardless of their background. Our mission is to harness AI to create personalized, adaptive study experiences that empower students to succeed.",
+  },
+  {
+    title: "Our Philosophy",
+    content:
+      "Learning isn't one-size-fits-all. True mastery comes from identifying weaknesses and adapting in real time. We prioritize accessibility, efficiency, and smart learning strategies.",
+  },
+  {
+    title: "Our Approach",
+    content:
+      "By combining generative AI with proven educational strategies, we provide students with personalized practice questions, real-time feedback, and an intuitive learning experience.",
+  },
+];
+
+export default function About() {
+  const { mode } = useThemeStore();
+  const theme = useTheme();
+  
   return (
-    <Container className="about-page">
-      <Typography variant="h2" component="h1" sx={{ mb: 3 }}>
+    <div className={`about-container ${mode === 'dark' ? 'dark' : ''}`}>
+      <motion.h1
+        className="about-title"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{ color: theme.palette.primary.main }}
+      >
         About Us
-      </Typography>
-      <Typography sx={{ mb: 4 }}>
-        We are dedicated to providing the best experience.
-      </Typography>
-      
-      <Paper elevation={3} sx={{ mb: 4, p: 3 }}>
-        <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
-          Our Mission
-        </Typography>
-        <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam 
-          innovatis technologiae et excellentiae dedicati sumus. Proin 
-          digital solutions vehicula tortor id maximus. Sed efficiency 
-          et quality sunt nostri propositi fundamentales.
-        </Typography>
-      </Paper>
-
-      <Paper elevation={3} sx={{ mb: 4, p: 3 }}>
-        <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
-          Our Expertise
-        </Typography>
-        <Typography>
-          Vestibulum ante ipsum primis in development et implementation 
-          faucibus orci luctus; Fusce customer satisfaction nec tellus 
-          consequat innovative. Integer cutting-edge solutions nec elit 
-          professional services gravida auctor.
-        </Typography>
-      </Paper>
-
-      <Paper elevation={3} sx={{ mb: 4, p: 3 }}>
-        <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
-          Our Commitment
-        </Typography>
-        <Typography>
-          Maecenas partnership et collaboration vel nisi excellence in 
-          delivery. Cras reliable solutions ac libero sustainable growth 
-          vitae client success ullamcorper. Donec continuous improvement 
-          sit amet felis strategic planning hendrerit.
-        </Typography>
-      </Paper>
-    </Container>
+      </motion.h1>
+      <div className="about-grid">
+        {sections.map((section, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: index * 0.2 }}
+          >
+            <Card className="about-card" elevation={3}>
+              <CardHeader
+                title={
+                  <Typography 
+                    variant="h4" 
+                    color="primary.main"
+                  >
+                    {section.title}
+                  </Typography>
+                }
+              />
+              <CardContent>
+                <Typography 
+                  variant="body2"
+                  color="text.primary"
+                >
+                  {section.content}
+                </Typography>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
-};
-
-export default About;
+}

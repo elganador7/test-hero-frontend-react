@@ -70,6 +70,11 @@ const getTheme = (mode: 'light' | 'dark') => createTheme({
       letterSpacing: "0.00938em",
       lineHeight: 1.5,
     },
+    body2: {
+      fontSize: "1.25rem",
+      letterSpacing: "0.00938em",
+      lineHeight: 1.5,
+    },
     button: {
       textTransform: "none",
       fontWeight: 500,
