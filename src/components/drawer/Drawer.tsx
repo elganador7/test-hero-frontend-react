@@ -11,7 +11,8 @@ import {
   Home, 
   QuestionMark, 
   Assessment, 
-  InfoRounded
+  InfoRounded,
+  Quiz,
 } from "@mui/icons-material";
 import styles from "./Drawer.module.scss";
 
@@ -30,7 +31,7 @@ export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
   const menuItems = [
     {
       text: "Practice Questions",
-      icon: <QuestionMark />,
+      icon: <Quiz />,
       path: "/practice"
     },
     {
