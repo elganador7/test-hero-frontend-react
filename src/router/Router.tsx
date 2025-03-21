@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { Header } from "../components/header/Header";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
@@ -41,7 +41,11 @@ const Router: React.FC = () => {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
-            <Route element={<AuthOutlet fallbackPath="/login" />}>
+            <Route element={
+              <AuthOutlet 
+                fallbackPath={`/login?returnTo=${window.location.pathname}`}
+              />
+            }>
               <Route path="/practice" element={<RelevantQuestion />} />
               <Route path="/performance" element={<PerformanceSummary />} />
             </Route>

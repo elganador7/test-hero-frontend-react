@@ -16,7 +16,8 @@ const HomePage: React.FC = () => {
   const { mode } = useThemeStore();
 
   const handleLogin = () => {
-    navigate("/login");
+    // Add returnTo parameter when redirecting to login
+    navigate("/login?returnTo=/practice");
   };
 
   const handlePractice = () => {

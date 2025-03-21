@@ -13,7 +13,9 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../../services/useAuth";
 import { config } from '../../config/env';
 
-const Login: React.FC = () => {
+const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
+  console.log('Login component returnTo:', returnTo);
+  
   const { googleAuth, login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,9 +28,7 @@ const Login: React.FC = () => {
     try {
       await login(username, password);
       setMessage("Login successful");
-
-      // Redirect to the /questions page after successful login
-      navigate("/");
+      navigate(returnTo);
     } catch (error) {
       console.error("Login failed:", error);
       setMessage("Login failed");
@@ -37,12 +37,13 @@ const Login: React.FC = () => {
 
   const handleSuccess = async (response: any) => {
     try {
-      const data = await googleAuth(response);
+      await googleAuth(response);
+      setMessage("Login successful");
+      navigate(returnTo);
     } catch (error) {
       console.error("Google authentication failed:", error);
+      setMessage("Login failed");
     }
-
-    navigate("/");
   };
 
   const handleError = () => {
