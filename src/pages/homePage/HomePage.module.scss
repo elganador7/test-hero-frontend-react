@@ -2,12 +2,15 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 .hero {
   height: 100vh;
   display: flex;
   position: relative;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .heroContent {

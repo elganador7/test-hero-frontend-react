@@ -10,7 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { 
   Home, 
   QuestionMark, 
-  Assessment
+  Assessment, 
+  InfoRounded,
+  Quiz,
 } from "@mui/icons-material";
 import styles from "./Drawer.module.scss";
 
@@ -29,13 +31,18 @@ export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
   const menuItems = [
     {
       text: "Practice Questions",
-      icon: <QuestionMark />,
+      icon: <Quiz />,
       path: "/practice"
     },
     {
       text: "Performance Summary",
       icon: <Assessment />,
       path: "/performance"
+    },
+    {
+      text: "About",
+      icon: <InfoRounded />,
+      path: "/about"
     },
   ];
 

@@ -66,7 +66,7 @@ export const Header = ({ setIsDrawerOpen }: HeaderProps) => {
       <Toolbar className={styles.toolbar}>
         {/* Left section */}
         <Box className={styles.leftSection}>
-          {isAuthenticated && (
+          {(
             <IconButton
               color="inherit"
               edge="start"
