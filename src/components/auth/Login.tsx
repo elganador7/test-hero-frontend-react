@@ -37,9 +37,13 @@ const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
 
   const handleSuccess = async (response: any) => {
     try {
-      await googleAuth(response);
-      setMessage("Login successful");
-      navigate(returnTo);
+      const success = await googleAuth(response);
+      if (success) {
+        setMessage("Login successful");
+        navigate(returnTo);
+      } else {
+        setMessage("Login failed");
+      }
     } catch (error) {
       console.error("Google authentication failed:", error);
       setMessage("Login failed");
