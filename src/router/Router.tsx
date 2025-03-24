@@ -17,6 +17,7 @@ import ScrollToTop from "../components/scrollToTop/ScrollToTop";
 
 const Router: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [returnTo, setReturnTo] = useState<string>("/");
 
   return (
     <BrowserRouter>
@@ -37,13 +38,13 @@ const Router: React.FC = () => {
           }}
         >
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage returnTo={returnTo} />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage setReturnTo={setReturnTo} />} />
             <Route path="/about" element={<About />} />
             <Route element={
               <AuthOutlet 
-                fallbackPath={`/login?returnTo=${window.location.pathname}`}
+                fallbackPath={`/login`}
               />
             }>
               <Route path="/practice" element={<RelevantQuestion />} />

@@ -10,14 +10,16 @@ import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 
 import MissionStatement from "../../components/homePage/MissionStatement";
 
-const HomePage: React.FC = () => {
+
+const HomePage: React.FC<{ setReturnTo: (returnTo: string) => void }> = ({ setReturnTo }) => {
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
   const { mode } = useThemeStore();
 
   const handleLogin = () => {
     // Add returnTo parameter when redirecting to login
-    navigate("/login?returnTo=/practice");
+    setReturnTo("/practice");
+    navigate("/login");
   };
 
   const handlePractice = () => {
