@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Card,
   CardContent,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   Radio,
@@ -18,14 +17,12 @@ import {
   getQuestionAnswer,
   postUserAnswer,
 } from "../../services/api";
-import { IUserData, Question, TestTopic, UserAnswer } from "../../models/index";
+import { IUserData, Question, UserAnswer } from "../../models/index";
 import styles from "./RelevantQuestion.module.scss";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import SubmitOrNext from "../../components/questions/SubmitOrNext/SubmitOrNext";
 import { useSettingsStore } from "../../store/useSettingsStore";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../../services/api";
 import TimerIcon from "@mui/icons-material/Timer";
 import clsx from "clsx";
 import LoadingQuestion from "../../components/common/LoadingQuestion/LoadingQuestion";
@@ -33,6 +30,8 @@ import DifficultyIndicator from "../../components/questions/DifficultyIndicator/
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeMathjax from 'rehype-mathjax/svg';
+import RightAngleTriangle from "../../components/testing_shapes/RightAngleTriangle";
+import SlopeGraph from "../../components/testing_shapes/SlopeGraph";
 
 const RelevantQuestion: React.FC = () => {
   const [question, setQuestion] = useState<Question | undefined>(undefined);
@@ -234,16 +233,18 @@ const RelevantQuestion: React.FC = () => {
             styles.panelsContainer, 
             {[styles.singlePanel]: !question.paragraph || question.paragraph === "null"}
           )}>
-            {question.paragraph && question.paragraph !== "null" && (
+            {/* {question.paragraph && question.paragraph !== "null" && ( */}
               <Card className={`${styles.card} ${styles.passageCard}`}>
                 <CardContent className={styles.cardContent}>
                   <Typography variant="h6" gutterBottom align="center">
                     Reading Passage
                   </Typography>
                   {renderText(question.paragraph)}
+                  <RightAngleTriangle />
+                  <SlopeGraph />
                 </CardContent>
               </Card>
-            )}
+            {/* )} */}
 
             <Card className={`${styles.card} ${styles.questionCard}`}>
               <CardContent sx={{ position: "relative" }}>
@@ -273,7 +274,7 @@ const RelevantQuestion: React.FC = () => {
                         key={i}
                         value={option}
                         control={<Radio />}
-                        label={<MathJax>{option}</MathJax>}
+                        label={renderText(option)}
                         className={styles.radioOption}
                       />
                     ))}

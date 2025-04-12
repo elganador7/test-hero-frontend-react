@@ -44,6 +44,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      jsxgraph:
+        specifier: ^1.11.0
+        version: 1.11.0
       nex:
         specifier: ^2.0.22
         version: 2.0.22
@@ -2668,6 +2671,10 @@ packages:
   jsx-ast-utils@3.3.5:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
+
+  jsxgraph@1.11.0:
+    resolution: {integrity: sha512-Xcy5TSsMuDCZudem0NJLQQ3Qcg5LRPSqEJgJ8L7kcfiVcYhkaWoKjQ9TBDYwcgB3NUdYftkOxH7OhqEFYH43Eg==}
+    engines: {node: '>=0.6.0'}
 
   katex@0.16.21:
     resolution: {integrity: sha512-XvqR7FgOHtWupfMiigNzmh+MgUVmDGU2kXZm899ZkPfcuoPuFxyHmXsgATDpFZDAXCI8tvinaVcDo8PIIJSo4A==}
@@ -6855,6 +6862,8 @@ snapshots:
       array.prototype.flat: 1.3.3
       object.assign: 4.1.7
       object.values: 1.2.1
+
+  jsxgraph@1.11.0: {}
 
   katex@0.16.21:
     dependencies:

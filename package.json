@@ -26,6 +26,7 @@
     "axios": "^1.7.9",
     "better-react-mathjax": "^2.0.4-beta1",
     "clsx": "^2.1.1",
+    "jsxgraph": "^1.11.0",
     "nex": "^2.0.22",
     "next": "^15.1.7",
     "react": "^18.3.1",
