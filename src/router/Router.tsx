@@ -13,6 +13,7 @@ import { useState } from "react";
 import About from "../pages/about/About";
 import Footer from "../components/footer/Footer";
 import ScrollToTop from "../components/scrollToTop/ScrollToTop";
+import Contact from "../pages/contact/Contact";
 
 
 const Router: React.FC = () => {
@@ -42,6 +43,7 @@ const Router: React.FC = () => {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/" element={<HomePage setReturnTo={setReturnTo} />} />
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             <Route element={
               <AuthOutlet 
                 fallbackPath={`/login`}

@@ -1,0 +1,32 @@
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  .contact-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+    transition: color 0.3s ease;
+  }
+  
+  .contact-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: 800px !important;
+  }
+  
+  .contact-card {
+    padding: clamp(2rem, 4vh, 3rem);
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
