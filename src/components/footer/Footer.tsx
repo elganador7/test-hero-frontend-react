@@ -9,7 +9,10 @@ const Footer: React.FC = () => {
   
   return (
     <footer className={`footer ${mode === 'dark' ? 'dark-theme' : 'light-theme'}`}>
-      <Link to="/about" className="footer-link">About Us</Link>
+      <div className="footer-links">
+        <Link to="/about" className="footer-link">About Us</Link>
+        <Link to="/privacy" className="footer-link">Privacy Policy</Link>
+      </div>
       <p>© {new Date().getFullYear()} TestScoreHero. All Rights Reserved.</p>
     </footer>
   );
