@@ -14,6 +14,8 @@ import {
 import { motion } from "framer-motion";
 import "./Contact.scss";
 
+const AUTO_HIDE_DURATION = 6000;
+
 const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<{
@@ -88,6 +90,15 @@ const Contact: React.FC = () => {
             </Typography>
             
             <form onSubmit={handleSubmit}>
+              {/* Honeypot field */}
+              <input
+                type="text"
+                name="botcheck"
+                className="hidden"
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
               <TextField
                 fullWidth
                 label="Name"
@@ -106,14 +117,14 @@ const Contact: React.FC = () => {
                 disabled={isSubmitting}
               />
               <TextField
-                fullWidth
-                label="Message"
-                name="message"
-                multiline
-                rows={4}
-                margin="normal"
-                required
-                disabled={isSubmitting}
+                  fullWidth
+                  label="Message"
+                  name="message"
+                  margin="normal"
+                  multiline
+                  rows={4}
+                  required
+                  disabled={isSubmitting}
               />
               <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-start' }}>
                 <Button 
@@ -134,7 +145,7 @@ const Contact: React.FC = () => {
 
       <Snackbar
         open={!!result}
-        autoHideDuration={6000}
+        autoHideDuration={AUTO_HIDE_DURATION}
         onClose={() => setResult(null)}
       >
         <Alert 

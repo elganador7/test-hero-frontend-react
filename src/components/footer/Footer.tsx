@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
   
   return (
     <footer className={`footer ${mode === 'dark' ? 'dark-theme' : 'light-theme'}`}>
-      <div className="footer-links">
+      <div className="footer-links-container">
         <Link to="/about" className="footer-link">About Us</Link>
         <Link to="/contact" className="footer-link">Contact Us</Link>
       </div>
