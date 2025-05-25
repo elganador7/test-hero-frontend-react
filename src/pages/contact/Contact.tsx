@@ -14,6 +14,7 @@ import {
 import { motion } from "framer-motion";
 import "./Contact.scss";
 
+// Auto hide duration for snackbar - shows success/error of form submission. 6 second duration
 const AUTO_HIDE_DURATION = 6000;
 
 const Contact: React.FC = () => {
