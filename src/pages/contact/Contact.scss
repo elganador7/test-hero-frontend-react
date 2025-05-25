@@ -1,0 +1,33 @@
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  .contact-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+    transition: color 0.3s ease;
+  }
+
+  .contact-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: clamp(30rem, 80vw, 50rem);
+  }
+  
+  .contact-card {
+    padding: clamp(1.5rem, 4vh, 3rem);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+    &:hover {
+      transform: translateY(clamp(-0.1rem, -0.25vh, -0.25rem));
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+    }
+  }

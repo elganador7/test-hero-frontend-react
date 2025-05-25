@@ -13,6 +13,7 @@ import {
   Assessment, 
   InfoRounded,
   Quiz,
+  ContactPage
 } from "@mui/icons-material";
 import styles from "./Drawer.module.scss";
 
