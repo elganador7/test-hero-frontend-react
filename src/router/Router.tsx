@@ -11,6 +11,7 @@ import { Box } from "@mui/material";
 import { Drawer } from "../components/drawer/Drawer";
 import { useState } from "react";
 import About from "../pages/about/About";
+import Privacy from "../pages/privacy/Privacy";
 import Footer from "../components/footer/Footer";
 import ScrollToTop from "../components/scrollToTop/ScrollToTop";
 import Contact from "../pages/contact/Contact";
@@ -44,6 +45,7 @@ const Router: React.FC = () => {
             <Route path="/" element={<HomePage setReturnTo={setReturnTo} />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route element={
               <AuthOutlet 
                 fallbackPath={`/login`}

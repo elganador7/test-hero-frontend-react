@@ -12,6 +12,7 @@ const Footer: React.FC = () => {
       <div className="footer-links-container">
         <Link to="/about" className="footer-link">About Us</Link>
         <Link to="/contact" className="footer-link">Contact Us</Link>
+        <Link to="/privacy" className="footer-link">Privacy Policy</Link>
       </div>
       <p>© {new Date().getFullYear()} TestScoreHero. All Rights Reserved.</p>
     </footer>
