@@ -14,7 +14,7 @@ const MissionStatement: React.FC = () => {
             Our Mission
           </Typography>
           <Typography variant="body1" className={styles.missionText}>
-            TestHero is dedicated to bridging the education gap by providing
+            TestScoreHero is dedicated to bridging the education gap by providing
             personalized and accessible test preparation solutions. Using
             cutting-edge AI, we help students tackle their weaknesses and build
             confidence for exams like the SAT and ACT.

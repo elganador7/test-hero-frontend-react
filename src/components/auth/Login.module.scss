@@ -3,12 +3,10 @@
   justify-content: center; /* Horizontally center */
   align-items: center; /* Vertically center */
   min-height: 100vh; /* Full viewport height */
-  background-color: #f0f0f0; /* Optional background color */
 }
 
 /* Flex layout for the container */
 .container {
-  background-color: white; /* Container background */
   padding: 32px; /* Add padding inside the container */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
   border-radius: 8px; /* Optional: rounded corners */

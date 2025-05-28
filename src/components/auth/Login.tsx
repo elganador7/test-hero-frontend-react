@@ -10,8 +10,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/useAuth";
 import styles from "./Login.module.scss";
+import { config } from '../../config/env';
 
-const Login: React.FC = () => {
+const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
+  console.log('Login component returnTo:', returnTo);
+  
   const { googleAuth, login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,13 +24,9 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const success = await login(username, password);
-      if (success) {
-        setMessage("Login successful");
-        navigate("/");
-      } else {
-        setMessage("Login failed");
-      }
+      await login(username, password);
+      setMessage("Login successful");
+      navigate(returnTo);
     } catch (error) {
       console.error("Login failed:", error);
       setMessage("Login failed");
@@ -36,17 +35,21 @@ const Login: React.FC = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const success = await googleAuth();
+      const success = await googleAuth(response);
       if (success) {
         setMessage("Login successful");
-        navigate("/");
+        navigate(returnTo);
       } else {
-        setMessage("Google login failed");
+        setMessage("Login failed");
       }
     } catch (error) {
-      console.error("Google login failed:", error);
-      setMessage("Google login failed");
+      console.error("Google authentication failed:", error);
+      setMessage("Login failed");
     }
+  };
+
+  const handleError = () => {
+    setMessage("Login failed");
   };
 
   return (
@@ -94,14 +97,8 @@ const Login: React.FC = () => {
           >
             Login
           </Button>
-
-          <Button
-            onClick={handleGoogleLogin}
-            variant="contained"
-            color="secondary"
-            fullWidth
-            className={styles.button}
-            style={{ marginTop: "10px" }}
+          <GoogleOAuthProvider
+            clientId={config.googleClientId}
           >
             Sign in with Google
           </Button>

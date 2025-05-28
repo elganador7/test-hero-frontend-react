@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .indicator {
+    position: relative;
+    width: 120px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+
+    @media (prefers-color-scheme: dark) {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+
+      &.easy {
+        background: var(--mui-palette-success-main);
+      }
+
+      &.medium {
+        background: var(--mui-palette-warning-main);
+      }
+
+      &.hard {
+        background: var(--mui-palette-error-main);
+      }
+    }
+
+    .label {
+      position: absolute;
+      right: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--mui-palette-text-secondary);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+  }
+} 

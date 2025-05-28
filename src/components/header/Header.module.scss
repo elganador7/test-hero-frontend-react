@@ -1,4 +1,61 @@
 .title {
     color: #FAE1DD;
-  }
-  
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+    
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.toolbar {
+    gap: 16px;
+    position: relative;
+}
+
+.leftSection {
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+}
+
+.menuButton {
+    padding: 12px;
+}
+
+.centerSection {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.filtersSection {
+    display: flex;
+    gap: 8px;
+    margin-left: 40px;
+    flex: 1;
+    max-width: 400px;
+
+    @media (min-width: 600px) {
+        margin-left: 64px;
+    }
+}
+
+.rightSection {
+    position: absolute;
+    right: 0;
+    display: flex;
+    gap: 8px;
+    padding-right: 24px;
+    align-items: center;
+}
+
+.themeToggle {
+    margin-left: 12px;
+    padding: 12px;
+}

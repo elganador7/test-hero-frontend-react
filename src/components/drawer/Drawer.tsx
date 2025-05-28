@@ -7,7 +7,16 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Settings, ArrowForward, Home, Report } from "@mui/icons-material";
+
+import { 
+  Home, 
+  QuestionMark, 
+  Assessment, 
+  InfoRounded,
+  Quiz,
+  ContactPage
+} from "@mui/icons-material";
+import styles from "./Drawer.module.scss";
 
 export interface DrawerProps {
   isDrawerOpen: boolean;
@@ -25,6 +34,24 @@ export const Drawer = ({
     setIsDrawerOpen(false);
     navigate(path);
   };
+
+  const menuItems = [
+    {
+      text: "Practice Questions",
+      icon: <Quiz />,
+      path: "/practice"
+    },
+    {
+      text: "Performance Summary",
+      icon: <Assessment />,
+      path: "/performance"
+    },
+    {
+      text: "About",
+      icon: <InfoRounded />,
+      path: "/about"
+    },
+  ];
 
   return (
     <>
@@ -52,30 +79,17 @@ export const Drawer = ({
               </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItemButton>
-            <ListItemButton onClick={() => handleNavigate("/randomQuestion")}>
-              <ListItemIcon>
-                <ArrowForward />
-              </ListItemIcon>
-              <ListItemText primary="Practice Now" />
-            </ListItemButton>
-            <ListItemButton onClick={() => handleNavigate("/userPerformance")}>
-              <ListItemIcon>
-                <Report />
-              </ListItemIcon>
-              <ListItemText primary="Your Performance" />
-            </ListItemButton>
-            <ListItemButton onClick={() => handleNavigate("/testTopicSettings")}>
-              <ListItemIcon>
-                <Report />
-              </ListItemIcon>
-              <ListItemText primary="Select Tests" />
-            </ListItemButton>
-            <ListItemButton onClick={() => setIsCheckoutFormModalOpen(true)}>
-              <ListItemIcon>
-                <Settings />
-              </ListItemIcon>
-              <ListItemText primary="Your Account" />
-            </ListItemButton>
+            {menuItems.map((item) => (
+              <ListItemButton
+                key={item.text}
+                onClick={() => handleNavigate(item.path)}
+              >
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            ))}
           </List>
         </Box>
       </MuiDrawer>
