@@ -7,6 +7,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
 import { 
   Home, 
   QuestionMark, 
@@ -20,9 +21,14 @@ import styles from "./Drawer.module.scss";
 export interface DrawerProps {
   isDrawerOpen: boolean;
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCheckoutFormModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
+export const Drawer = ({
+  isDrawerOpen,
+  setIsDrawerOpen,
+  setIsCheckoutFormModalOpen,
+}: DrawerProps) => {
   const navigate = useNavigate();
   const handleNavigate = (path: string) => {
     setIsDrawerOpen(false);

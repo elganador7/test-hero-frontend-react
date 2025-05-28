@@ -7,10 +7,10 @@ import {
   Box,
   Alert,
 } from "@mui/material";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
-import styles from "./Login.module.scss";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../../services/useAuth";
+import styles from "./Login.module.scss";
 import { config } from '../../config/env';
 
 const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
@@ -20,7 +20,6 @@ const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
-
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -35,9 +34,9 @@ const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
     }
   };
 
-  const handleSuccess = async (response: any) => {
+  const handleGoogleLogin = async () => {
     try {
-      const success = await googleAuth(response);
+      const success = await googleAuth();
       if (success) {
         setMessage("Login successful");
         navigate(returnTo);
@@ -76,7 +75,7 @@ const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
           )}
 
           <TextField
-            label="Username"
+            label="Email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             fullWidth
@@ -102,7 +101,7 @@ const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
           <GoogleOAuthProvider
             clientId={config.googleClientId}
           >
-            <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+            Sign in with Google
           </GoogleOAuthProvider>
         </Box>
       </Container>
