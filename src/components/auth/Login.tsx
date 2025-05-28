@@ -7,6 +7,7 @@ import {
   Box,
   Alert,
 } from "@mui/material";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/useAuth";
 import styles from "./Login.module.scss";
@@ -35,7 +36,7 @@ const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
 
   const handleGoogleLogin = async () => {
     try {
-      const success = await googleAuth(response);
+      const success = await googleAuth();
       if (success) {
         setMessage("Login successful");
         navigate(returnTo);
@@ -101,7 +102,7 @@ const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
             clientId={config.googleClientId}
           >
             Sign in with Google
-          </Button>
+          </GoogleOAuthProvider>
         </Box>
       </Container>
     </div>

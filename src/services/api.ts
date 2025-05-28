@@ -139,6 +139,7 @@ export const fetchTestTopicData = async (endpoint: string, param: string | null)
     console.error(`Error fetching ${endpoint}:`, error);
     return [];
   }
+};
 
 export const getTestTopics = async (): Promise<TestTopic[]> => {
   return (await api.get<TestTopic[]>("/test_topics/")).data;
