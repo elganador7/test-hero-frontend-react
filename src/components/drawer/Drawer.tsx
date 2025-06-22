@@ -5,6 +5,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -13,9 +14,11 @@ import {
   Assessment, 
   InfoRounded,
   Quiz,
-  ContactPage
+  Upgrade
 } from "@mui/icons-material";
 import styles from "./Drawer.module.scss";
+import CheckoutModal from "../checkout/CheckoutButton";
+import { useCheckoutModal } from "../../hooks/useCheckoutModal";
 
 export interface DrawerProps {
   isDrawerOpen: boolean;
@@ -24,6 +27,8 @@ export interface DrawerProps {
 
 export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
   const navigate = useNavigate();
+  const { isOpen, openModal, closeModal } = useCheckoutModal();
+
   const handleNavigate = (path: string) => {
     setIsDrawerOpen(false);
     navigate(path);
@@ -49,7 +54,6 @@ export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
 
   return (
     <>
-      {/* Drawer */}
       <MuiDrawer
         variant="temporary"
         anchor="left"
@@ -85,8 +89,38 @@ export const Drawer = ({ isDrawerOpen, setIsDrawerOpen }: DrawerProps) => {
               </ListItemButton>
             ))}
           </List>
+
+          <Divider sx={{ my: 2 }} />
+
+          <List>
+            <ListItemButton 
+              onClick={() => {
+                setIsDrawerOpen(false);
+                openModal();
+              }}
+              sx={{
+                color: 'primary.main',
+                '&:hover': {
+                  backgroundColor: 'primary.light',
+                  color: 'primary.contrastText',
+                }
+              }}
+            >
+              <ListItemIcon sx={{ color: 'inherit' }}>
+                <Upgrade />
+              </ListItemIcon>
+              <ListItemText 
+                primary="Upgrade to Pro" 
+                primaryTypographyProps={{
+                  fontWeight: 600
+                }}
+              />
+            </ListItemButton>
+          </List>
         </Box>
       </MuiDrawer>
+
+      <CheckoutModal open={isOpen} onClose={closeModal} />
     </>
   );
 };

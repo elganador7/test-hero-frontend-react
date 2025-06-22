@@ -111,6 +111,36 @@ export const generateSimilarQuestions = async (
   return response.data;
 };
 
+interface PaymentReposonse {
+  clientSecret: string;
+}
+
+export const submitPayment = async (
+  amount: number,
+  currency: string
+): Promise<PaymentReposonse> => {
+  const response = await api.post<PaymentReposonse>(
+    `/stripe/payment`,
+    {
+      amount: amount,
+      currency: currency,
+    }
+  );
+
+  return response.data;
+};
+
+export const fetchTestTopicData = async (endpoint: string, param: string | null): Promise<TestTopic[]> => {
+  try {
+    const response: any = await api.get(`/test-topic-data/${endpoint ? (endpoint + "/") : ""}${param}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching ${endpoint}:`, error);
+    return [];
+  }
+};
+
 export const getTestTopics = async (): Promise<TestTopic[]> => {
   return (await api.get<TestTopic[]>("/test_topics/")).data;
 };
