@@ -1,5 +1,5 @@
 import { Container, Card, CardContent, Typography } from "@mui/material";
-import styles from "./missionStatement.module.scss";
+import styles from "./MissionStatement.module.scss";
 
 const MissionStatement: React.FC = () => {
   return (
