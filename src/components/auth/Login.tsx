@@ -98,10 +98,13 @@ const Login: React.FC<{ returnTo: string }> = ({ returnTo }) => {
           >
             Login
           </Button>
+      
           <GoogleOAuthProvider
             clientId={config.googleClientId}
           >
+            <Button onClick={handleGoogleLogin} variant="contained" fullWidth className={styles.button}>
             Sign in with Google
+            </Button>
           </GoogleOAuthProvider>
         </Box>
       </Container>

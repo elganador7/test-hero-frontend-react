@@ -49,6 +49,7 @@ export const useAuth = () => {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
+      console.log("Google authentication result:", result.user);
       const idToken = await result.user.getIdToken();
 
       // Store the token and update Auth state
